@@ -1,0 +1,3376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club de Leones San Sebastián</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #f9a825;
+            --secondary: #1565c0;
+            --dark: #333;
+            --light: #f5f5f5;
+            --accent: #e64a19;
+            --text: #444;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --transition-slow: all 0.6s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        header {
+            background: rgba(21, 101, 192, 0.95);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        .header-scrolled {
+            padding: 0.5rem 0;
+            background: rgba(21, 101, 192, 0.98);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+            transition: var(--transition);
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .mobile-menu-btn:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(249, 168, 37, 0.3), rgba(21, 101, 192, 0.3));
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+            font-family: 'Montserrat', sans-serif;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.3s both;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            animation: fadeInUp 1s ease 0.6s both;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: var(--transition-slow);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            background-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        section {
+            padding: 5rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary);
+            border-radius: 2px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .mission {
+            background-color: white;
+        }
+
+        .mission-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: flex-start;
+        }
+
+        .mission-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .mission-text h3 {
+            color: var(--secondary);
+            margin: 1.5rem 0 1rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .mission-text ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mission-text li {
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .mission-text li::before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: bold;
+            position: absolute;
+            left: -1.5rem;
+        }
+
+        .mission-image {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition-slow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-image:hover {
+            transform: scale(1.02);
+        }
+
+        .mission-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition-slow);
+        }
+
+        .mission-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .ethics {
+            background: linear-gradient(135deg, var(--secondary), #909fb4);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ethics::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1774&q=80') no-repeat center center/cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .ethics-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .ethics-intro {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+
+        .ethics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .ethics-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: left;
+        }
+
+        .ethics-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .ethics-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .ethics-card-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .ethics-card-title {
+            font-size: 1.4rem;
+            color: var(--primary);
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+        }
+
+        .ethics-card-content {
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .news {
+            background-color: #f9f9f9;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .news-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .news-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .news-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .news-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-slow);
+        }
+
+        .news-card:hover .news-image img {
+            transform: scale(1.1);
+        }
+
+        .news-content {
+            padding: 1.5rem;
+        }
+
+        .news-date {
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .news-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .news-excerpt {
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .christmas-dream {
+            background: linear-gradient(135deg, var(--secondary), #909fb4);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .christmas-dream::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1574359411659-619d037f3f54?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80') no-repeat center center/cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .christmas-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .christmas-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .christmas-text h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .christmas-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .stat.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-text {
+            font-size: 1rem;
+        }
+
+        .how-to-help {
+            background-color: white;
+        }
+
+        .help-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .help-option {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            background-color: #f9f9f9;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .help-option.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .help-option:hover {
+            transform: translateY(-5px);
+            background-color: white;
+        }
+
+        .help-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .help-option:hover .help-icon {
+            transform: scale(1.1);
+            color: var(--secondary);
+        }
+
+        .help-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .help-description {
+            line-height: 1.6;
+        }
+
+        /* Información Bancaria con Cards */
+        .bank-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .bank-card {
+            background: linear-gradient(135deg, var(--secondary), #0d47a1);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .bank-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .bank-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary);
+        }
+
+        .bank-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .bank-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .bank-item:last-child {
+            border-bottom: none;
+        }
+
+        .bank-label {
+            font-weight: 500;
+        }
+
+        .bank-value {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .contact {
+            background-color: #f9f9f9;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            transform: translateX(5px);
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+            width: 40px;
+            text-align: center;
+        }
+
+        .contact-text h3 {
+            margin-bottom: 0.3rem;
+            color: var(--secondary);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .contact-form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(249, 168, 37, 0.2);
+        }
+
+        .map-container {
+            margin-top: 2rem;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+        }
+
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-contact p {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #444;
+        }
+
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .admin-modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: modalFadeIn 0.5s ease;
+        }
+
+        .admin-modal h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .admin-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .admin-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .admin-btn {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .admin-login {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .admin-cancel {
+            background-color: #ddd;
+            color: var(--text);
+        }
+
+        .admin-login:hover {
+            background-color: var(--accent);
+        }
+
+        .admin-cancel:hover {
+            background-color: #bbb;
+        }
+
+        .admin-access {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            z-index: 100;
+            animation: pulse 2s infinite;
+        }
+
+        .admin-access:hover {
+            background-color: var(--accent);
+            transform: scale(1.1);
+            animation: none;
+        }
+
+        .admin-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 3000;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .admin-header h2 {
+            color: var(--secondary);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .admin-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-section {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .admin-section h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .admin-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .admin-control {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .admin-control label {
+            font-weight: 500;
+        }
+
+        .admin-control input,
+        .admin-control textarea,
+        .admin-control select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .file-upload input[type="file"] {
+            padding: 0.5rem;
+            border: 1px dashed #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .add-card-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .add-card-btn:hover {
+            background-color: var(--primary);
+        }
+
+        .remove-card-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.3rem 0.7rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 0.5rem;
+        }
+
+        .remove-card-btn:hover {
+            background-color: #c62828;
+        }
+
+        /* Estilos para la galería */
+        .gallery-preview {
+            background-color: #f9f9f9;
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .gallery-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .gallery-preview-item {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            height: 200px;
+        }
+
+        .gallery-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-slow);
+        }
+
+        .gallery-preview-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery-preview-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* NUEVOS ESTILOS PARA VIDEOS LOCALES */
+        .video-container {
+            width: 100%;
+            margin: 2rem 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            position: relative;
+            background: #000;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 400px;
+            display: block;
+            outline: none;
+        }
+
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .video-container:hover .video-controls {
+            opacity: 1;
+        }
+
+        .video-controls button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .video-controls button:hover {
+            background: var(--accent);
+        }
+
+        .video-error {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            text-align: center;
+            border-radius: 10px;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .video-error a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+
+        .video-error a:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .video-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .video-loading i {
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            animation: spin 1s linear infinite;
+        }
+
+        .video-fallback {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            background: linear-gradient(135deg, var(--secondary), #0d47a1);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .video-fallback i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .video-fallback h3 {
+            margin-bottom: 1rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .video-fallback p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .video-preview {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: #f0f0f0;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .video-preview video {
+            max-width: 200px;
+            max-height: 150px;
+            margin-top: 0.5rem;
+            border-radius: 5px;
+        }
+
+        .upload-status {
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        .upload-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .upload-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .upload-loading {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .spinner {
+            text-align: center;
+            padding: 1rem;
+            color: var(--primary);
+            font-weight: 500;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .spinner i {
+            margin-right: 0.5rem;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .image-placeholder {
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 1rem;
+            height: 200px;
+            border-radius: 10px;
+        }
+
+        .debug-info {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .image-preview {
+            max-width: 100px;
+            max-height: 100px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(249, 168, 37, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(249, 168, 37, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(249, 168, 37, 0);
+            }
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .mission-content,
+            .christmas-content,
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .christmas-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+
+            .ethics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--secondary);
+                padding: 1rem 0;
+                box-shadow: var(--shadow);
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .admin-sections {
+                grid-template-columns: 1fr;
+            }
+
+            .bank-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-access" id="adminAccess">
+        <i class="fas fa-cog"></i>
+    </div>
+
+    <!-- MODAL DE ADMINISTRACIÓN MEJORADO CON FIREBASE -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-modal-content">
+            <h2>Acceso Administrador</h2>
+            <form class="admin-form">
+                <div class="form-group">
+                    <label for="adminUser">Correo Electrónico</label>
+                    <input type="email" id="adminUser" placeholder="Ingrese su correo electrónico">
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Contraseña</label>
+                    <input type="password" id="adminPassword" placeholder="Ingrese su contraseña">
+                </div>
+                <div class="admin-buttons">
+                    <button type="button" class="admin-btn admin-cancel" id="adminCancel">Cancelar</button>
+                    <button type="button" class="admin-btn admin-login" id="adminLogin">Ingresar</button>
+                </div>
+                <div id="adminAlert" class="alert" style="display: none;"></div>
+            </form>
+        </div>
+    </div>
+
+    <div class="admin-panel" id="adminPanel">
+        <div class="container">
+            <div class="admin-header">
+                <h2>Panel de Administración</h2>
+                <button class="admin-btn admin-cancel" id="adminLogout">Cerrar Sesión</button>
+            </div>
+            
+            <div class="admin-sections">
+                <div class="admin-section">
+                    <h3>Hero Section</h3>
+                    <div class="admin-controls">
+                        <div class="admin-control">
+                            <label for="adminHeroTitle">Título Principal</label>
+                            <input type="text" id="adminHeroTitle" value="Servicio que Transforma Comunidades">
+                        </div>
+                        <div class="admin-control">
+                            <label for="adminHeroText">Texto Descriptivo</label>
+                            <textarea id="adminHeroText" rows="3">Juntos construimos un futuro mejor para San Sebastián y sus habitantes a través del servicio desinteresado y la solidaridad.</textarea>
+                        </div>
+                        <div class="file-upload">
+                            <label for="adminHeroImage">Imagen de Fondo</label>
+                            <input type="file" id="adminHeroImage" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="admin-section">
+                    <h3>Sección Misión</h3>
+                    <div class="admin-controls">
+                        <div class="admin-control">
+                            <label for="adminMissionTitle">Título</label>
+                            <input type="text" id="adminMissionTitle" value="Nuestra Misión">
+                        </div>
+                        <div class="admin-control">
+                            <label for="adminMissionText">Texto</label>
+                            <textarea id="adminMissionText" rows="5">La Asociación Club de Leones de San Sebastián es una organización con intereses benéficos y de servicio y no pretende el lucro ni para sí ni para sus asociados.</textarea>
+                        </div>
+                        <div class="file-upload">
+                            <label for="adminMissionImage">Imagen de Misión</label>
+                            <input type="file" id="adminMissionImage" accept="image/*">
+                        </div>
+                        <div class="admin-control">
+                            <label for="adminObjectives">Objetivos</label>
+                            <textarea id="adminObjectives" rows="6">a. Trabajar en forma activa y por todos los medios a su alcance, para desarrollar una profunda amistad y cordialidad entre los asociados y sus familias.
+
+b. Participar activamente en los diversos movimientos que proporcionen el desarrollo tanto a nivel de la comunidad como a nivel nacional.
+
+c. Estimular las normas de ética y el espíritu de servicio hacia los más necesitados de la comunidad, sin esperar por ello alguna recompensa ó retribución.</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-section">
+                    <h3>Código de Ética</h3>
+                    <div class="admin-controls">
+                        <div class="admin-control">
+                            <label for="adminEthicsTitle">Título</label>
+                            <input type="text" id="adminEthicsTitle" value="Código de Ética">
+                        </div>
+                        <div class="admin-control">
+                            <label for="adminEthicsIntro">Texto Introductorio</label>
+                            <textarea id="adminEthicsIntro" rows="4">Nuestro código de ética define los principios fundamentales que guían nuestras acciones y decisiones como miembros del Club de Leones.</textarea>
+                        </div>
+                        <div class="admin-control">
+                            <label for="adminEthics">Principios de Ética (uno por línea)</label>
+                            <textarea id="adminEthics" rows="12">Mostrar mi fe en la bondad de mi vocación aplicándome industriosamente hasta lograr una buena reputación por la alta calidad de mis servicios.
+Buscar el éxito y exigir toda remuneración o ganancia justa que pueda merecer, pero rehusar toda ganancia o recompensa que pudiera resultar en menoscabo o pérdida de mi dignidad, como efecto del aprovechamiento de alguna ventaja injusta, o de acciones dudosas mías.
+Recordar que para desarrollar mi negocio no es necesario destruir el de otro, ser leal con mis clientes y sincero para conmigo mismo.
+Dondequiera que surja alguna duda, en cuanto al derecho o a la ética de mi posición o acción hacia otras personas resolver esa duda a costa de mí mismo.
+Practicar la amistad como un fin y no como un medio. Sostener que la verdadera amistad existe, no por razón del servicio prestado, sino que se acepta con el mismo espíritu con que se realiza, sin pedir nada por ello.
+Tener siempre presente mis obligaciones de ciudadano para con mi nación, mi estado y mi comunidad, profesándoles mi lealtad constante de pensamiento, palabra y obra, y dedicándoles generosamente mi tiempo, mi trabajo y mis recursos.
+Ayudar al prójimo consolando al atribulado, fortaleciendo al débil y socorriendo al menesteroso.
+Ser mesurado en la crítica y liberal en el elogio, construir y no destruir.</textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="admin-section">
+                    <h3>Noticias y Eventos</h3>
+                    <div class="admin-controls" id="newsControls">
+                    </div>
+                    <button class="add-card-btn" id="addNewsBtn">Agregar Noticia</button>
+                </div>
+                
+                <div class="admin-section">
+                    <h3>Sueño de Navidad</h3>
+                    <div class="admin-controls">
+                        <div class="admin-control">
+                            <label for="adminChristmasTitle">Título</label>
+                            <input type="text" id="adminChristmasTitle" value="Sueño de Navidad">
+                        </div>
+                        <div class="admin-control">
+                            <label for="adminChristmasText">Texto</label>
+                            <textarea id="adminChristmasText" rows="5">La participación del leonismo en este programa nace hace más de 15 años a raíz del interés de Televisora de Costa Rica-Canal 7, propiamente de Telenoticias por llevar a cabo un proyecto de este tipo.</textarea>
+                        </div>
+                        <div class="file-upload">
+                            <label for="adminChristmasImage">Imagen de Navidad</label>
+                            <input type="file" id="adminChristmasImage" accept="image/*">
+                        </div>
+                        <div class="admin-control">
+                            <label for="adminChristmasVideo1">Video 1 (Subir archivo)</label>
+                            <input type="file" id="adminChristmasVideo1" accept="video/*">
+                            <div class="video-preview" id="adminVideoPreview1"></div>
+                        </div>
+                        <div class="admin-control">
+                            <label for="adminChristmasVideo2">Video 2 (Subir archivo)</label>
+                            <input type="file" id="adminChristmasVideo2" accept="video/*">
+                            <div class="video-preview" id="adminVideoPreview2"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="admin-section">
+                    <h3>Cómo Ayudar</h3>
+                    <div class="admin-controls" id="helpControls">
+                    </div>
+                </div>
+                
+                <div class="admin-section">
+                    <h3>Información Bancaria</h3>
+                    <div class="admin-controls">
+                        <div class="admin-control">
+                            <label for="adminBankInfo">Información Bancaria</label>
+                            <textarea id="adminBankInfo" rows="10">BAC CREDOMATIC
+SINPE Móvil: 8322-6111
+Cuenta Colones: 800800807
+Cuenta IBAN Colones: CR17010200008008008070
+Cuenta Dólares: 800800815
+Cuenta IBAN Dólares: CR07010200008008008153
+CEDULA JURIDICA 3-002-045681
+
+Banco de Costa Rica
+SINPE Móvil: 8322-6111
+Cuenta Colones: 001-0509472-0
+Cuenta IBAN Colones: CR77015201001050947204
+Cuenta Dólares: 001-0276483-0
+Cuenta IBAN Dólares: CR06015201001027648306
+CEDULA JURIDICA 3-002-045681</textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="admin-section">
+                    <h3>Galería</h3>
+                    <div class="admin-controls" id="galleryControls">
+                    </div>
+                    <button class="add-card-btn" id="addGalleryBtn">Agregar Imagen</button>
+                </div>
+            </div>
+            
+            <div class="admin-actions">
+                <button class="admin-btn admin-login" id="adminSave">Guardar Cambios</button>
+                <button class="admin-btn admin-cancel" id="adminReset">Restablecer Datos</button>
+            </div>
+        </div>
+    </div>
+
+    <header id="mainHeader">
+        <div class="header-container">
+            <div class="logo">
+                <img src="https://via.placeholder.com/60x60/1565c0/ffffff?text=CLS" alt="Club de Leones San Sebastián">
+                <h1>Club de Leones<br>San Sebastián</h1>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#mision">Misión</a></li>
+                    <li><a href="#etica">Código de Ética</a></li>
+                    <li><a href="#noticias">Noticias</a></li>
+                    <li><a href="#galeria">Galería</a></li>
+                    <li><a href="#sueño-navidad">Sueño de Navidad</a></li>
+                    <li><a href="#como-ayudar">Cómo Ayudar</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="inicio">
+        <div class="particles" id="particles"></div>
+        <div class="hero-content">
+            <h2 id="heroTitle">Servicio que Transforma Comunidades</h2>
+            <p id="heroText">Juntos construimos un futuro mejor para San Sebastián y sus habitantes a través del servicio desinteresado y la solidaridad.</p>
+            <a href="#como-ayudar" class="btn">Únete a Nuestra Causa</a>
+        </div>
+    </section>
+
+    <section class="mission" id="mision">
+        <div class="container">
+            <div class="section-title">
+                <h2 id="missionTitle">Nuestra Misión</h2>
+            </div>
+            <div class="mission-content">
+                <div class="mission-text">
+                    <p id="missionText">La Asociación Club de Leones de San Sebastián es una organización con intereses benéficos y de servicio y no pretende el lucro ni para sí ni para sus asociados.</p>
+                    <p>Afiliados a: <a href="https://www.lionsclubs.org" target="_blank" style="color: var(--secondary); text-decoration: none;"><strong>Lions Clubs International</strong></a></p>
+                    
+                    <h3>Objetivos</h3>
+                    <div id="objectivesText">
+                        <p>a. Trabajar en forma activa y por todos los medios a su alcance, para desarrollar una profunda amistad y cordialidad entre los asociados y sus familias.</p>
+                        <p>b. Participar activamente en los diversos movimientos que proporcionen el desarrollo tanto a nivel de la comunidad como a nivel nacional.</p>
+                        <p>c. Estimular las normas de ética y el espíritu de servicio hacia los más necesitados de la comunidad, sin esperar por ello alguna recompensa ó retribución.</p>
+                    </div>
+                </div>
+                <div class="mission-image">
+                    <img id="missionImage" src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" alt="Misión Club de Leones">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="ethics" id="etica">
+        <div class="container">
+            <div class="section-title">
+                <h2 id="ethicsTitle">Código de Ética</h2>
+            </div>
+            <div class="ethics-content">
+                <div class="ethics-intro" id="ethicsIntro">
+                    Nuestro código de ética define los principios fundamentales que guían nuestras acciones y decisiones como miembros del Club de Leones.
+                </div>
+                <div class="ethics-grid" id="ethicsGrid">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="news" id="noticias">
+        <div class="container">
+            <div class="section-title">
+                <h2>Noticias y Eventos</h2>
+            </div>
+            <!-- DEBUG INFO -->
+            <div class="debug-info" id="newsDebug" style="display: none;">
+                <strong></strong> 
+                <span id="newsCount">0</span> 
+            </div>
+            <div class="news-grid" id="newsGrid">
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery-preview" id="galeria">
+        <div class="container">
+            <div class="section-title">
+                <h2>Galería</h2>
+            </div>
+            <!-- DEBUG INFO -->
+            <div class="debug-info" id="galleryDebug" style="display: none;">
+                <strong></strong> 
+                <span id="galleryCount">0</span> 
+            </div>
+            <div class="gallery-preview-grid" id="galleryPreviewGrid">
+            </div>
+            <a href="galeria.html" class="btn">Ver Galería Completa</a>
+        </div>
+    </section>
+
+    <section class="christmas-dream" id="sueño-navidad">
+        <div class="container">
+            <div class="section-title">
+                <h2 id="christmasTitle">Sueño de Navidad</h2>
+            </div>
+            <div class="christmas-content">
+                <div class="christmas-text">
+                    <h3>Historia del Proyecto</h3>
+                    <p id="christmasText">La participación del leonismo en este programa nace hace más de 15 años a raíz del interés de Televisora de Costa Rica-Canal 7, propiamente de Telenoticias por llevar a cabo un proyecto de este tipo.</p>
+                    <p>En aquel entonces se iniciaron los primeros contactos televisora / leones, con una reunión en el Canal 7 donde participamos varios leones. De inmediato iniciamos el trabajo con la selección de casos, tanto por los aportados por ellos como los que cada club que participo había presentado.</p>
+                    <p>La mecánica utilizada se basó en estudios socioeconómicos de cada familia, así como el orden de presentación de casos, además de una selección compleja y detallada en conjunto con la televisora donde siempre prevaleció la armonía y buen entendimiento.</p>
+                    
+                    <div class="video-container">
+                        <div id="christmasVideo1">
+                            <!-- El video se cargará aquí dinámicamente -->
+                        </div>
+                    </div>
+                    
+                    <div class="christmas-stats">
+                        <div class="stat">
+                            <div class="stat-number">200+</div>
+                            <div class="stat-text">Casos Atendidos</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">1,500+</div>
+                            <div class="stat-text">Personas Beneficiadas</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">10,000+</div>
+                            <div class="stat-text">Familias Beneficiadas</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">15+</div>
+                            <div class="stat-text">Años de Trabajo</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mission-image">
+                    <img id="christmasImage" src="https://images.unsplash.com/photo-1574359411659-619d037f3f54?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" alt="Sueño de Navidad">
+                    <div class="video-container" style="margin-top: 2rem;">
+                        <div id="christmasVideo2">
+                            <!-- El video se cargará aquí dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-to-help" id="como-ayudar">
+        <div class="container">
+            <div class="section-title">
+                <h2>Cómo Puedes Ayudar</h2>
+            </div>
+            <div class="help-options" id="helpOptions">
+            </div>
+            <div style="margin-top: 3rem; text-align: center;">
+                <h3>Información Bancaria</h3>
+                <div class="bank-cards" id="bankCards">
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+        
+    <section class="contact" id="contacto">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contáctanos</h2>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>Dirección</h3>
+                            <p>San Sebastián, frente a la iglesia católica, contiguo a la casa cural.</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>Teléfono</h3>
+                            <p>+506 8322-6111</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>Correo Electrónico</h3>
+                            <p>clsansebastian@yahoo.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>WhatsApp</h3>
+                            <p>+506 8322-6111</p>
+                        </div>
+                    </div>
+                    
+                    <div class="map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3474.811578005871!2d-84.08801332497002!3d9.911215190189653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa0e33c00c00dad%3A0xe93c4974e699d9d3!2sClub%20de%20Leones%20San%20Sebasti%C3%A1n!5e1!3m2!1ses-419!2scr!4v1761058225963!5m2!1ses-419!2scr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nombre</label>
+                            <input type="text" id="name" name="name" placeholder="Ingrese su nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" placeholder="Ingrese su correo electrónico" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Asunto</label>
+                            <input type="text" id="subject" name="subject" placeholder="Asunto del mensaje" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Mensaje</label>
+                            <textarea id="message" name="message" rows="5" placeholder="Escriba su mensaje" required></textarea>
+                        </div>
+                        
+                        <div id="alert" class="alert"></div>
+                        <div id="spinner" class="spinner">
+                            <i class="fas fa-spinner fa-spin"></i> Enviando mensaje...
+                        </div>
+                        <button type="submit" class="btn" id="submitBtn">Enviar Mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <img src="https://via.placeholder.com/50x50/1565c0/ffffff?text=CLS" alt="Club de Leones San Sebastián">
+                        <h3>Club de Leones<br>San Sebastián</h3>
+                    </div>
+                    <p>Organización de servicio comprometida con el desarrollo de nuestra comunidad a través de acciones benéficas y proyectos sociales.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#mision">Misión</a></li>
+                        <li><a href="#noticias">Noticias</a></li>
+                        <li><a href="#galeria">Galería</a></li>
+                        <li><a href="#sueño-navidad">Sueño de Navidad</a></li>
+                        <li><a href="#como-ayudar">Cómo Ayudar</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contacto</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> San Sebastián, frente a la iglesia católica</p>
+                    <p><i class="fas fa-phone"></i> +506 8322-6111</p>
+                    <p><i class="fas fa-envelope"></i> clsansebastian@yahoo.com</p>
+                    <div class="social-icons" style="margin-top: 1rem;">
+                        <a href="https://www.facebook.com/ClubDeLeonesSanSebastian" style="color: white; margin-right: 1rem;"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://wa.me/50683226111" style="color: white;"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Club de Leones San Sebastián. Afiliados a <a href="https://www.lionsclubs.org" target="_blank" style="color: var(--primary); text-decoration: none;"><strong>Lions Clubs International</strong></a>. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+
+    <script>
+        // ===== CONFIGURACIÓN CORREGIDA DE FIREBASE =====
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLDYKAghYW11VXBeNaOtzOnGQHZRiRfrY",
+            authDomain: "almacenapp-fff60.firebaseapp.com",
+            projectId: "almacenapp-fff60",
+            storageBucket: "almacenapp-fff60.firebasestorage.app",
+            messagingSenderId: "258359058253",
+            appId: "1:258359058253:web:b677bb0567cbb88c46a104"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const storage = firebase.storage();
+        const auth = firebase.auth();
+
+        // ===== SISTEMA DE AUTENTICACIÓN FIREBASE =====
+
+        function firebaseLogin(email, password) {
+            return auth.signInWithEmailAndPassword(email, password);
+        }
+
+        function firebaseLogout() {
+            return auth.signOut();
+        }
+
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                console.log("Usuario autenticado:", user.email);
+                document.getElementById('adminPanel').style.display = 'block';
+                loadAdminValues();
+            } else {
+                console.log("Usuario no autenticado");
+                document.getElementById('adminPanel').style.display = 'none';
+            }
+        });
+
+        // ===== SISTEMA CORREGIDO DE PERSISTENCIA =====
+        
+        let newsData = [];
+        let helpData = [];
+        let ethicsData = [];
+        let bankData = [];
+        let galleryData = [];
+        let christmasVideoData = ["", ""];
+        let siteContent = {};
+
+        function loadAllData() {
+            try {
+                newsData = JSON.parse(localStorage.getItem('clubLeonesNews')) || getDefaultNews();
+                helpData = JSON.parse(localStorage.getItem('clubLeonesHelp')) || getDefaultHelp();
+                ethicsData = JSON.parse(localStorage.getItem('clubLeonesEthics')) || getDefaultEthics();
+                bankData = JSON.parse(localStorage.getItem('clubLeonesBank')) || getDefaultBank();
+                galleryData = JSON.parse(localStorage.getItem('clubLeonesGallery')) || getDefaultGallery();
+                
+                const savedVideos = JSON.parse(localStorage.getItem('clubLeonesChristmasVideos'));
+                if (savedVideos && Array.isArray(savedVideos)) {
+                    christmasVideoData = savedVideos;
+                }
+                
+                siteContent = JSON.parse(localStorage.getItem('clubLeonesContent')) || getDefaultContent();
+                
+                console.log("📂 Datos cargados:", {
+                    noticias: newsData.length,
+                    galeria: galleryData.length,
+                    videos: christmasVideoData.filter(v => v).length
+                });
+            } catch (error) {
+                console.error("Error cargando datos:", error);
+                loadDefaultData();
+            }
+        }
+
+        function saveAllData() {
+            try {
+                localStorage.setItem('clubLeonesNews', JSON.stringify(newsData));
+                localStorage.setItem('clubLeonesHelp', JSON.stringify(helpData));
+                localStorage.setItem('clubLeonesEthics', JSON.stringify(ethicsData));
+                localStorage.setItem('clubLeonesBank', JSON.stringify(bankData));
+                localStorage.setItem('clubLeonesGallery', JSON.stringify(galleryData));
+                localStorage.setItem('clubLeonesChristmasVideos', JSON.stringify(christmasVideoData));
+                localStorage.setItem('clubLeonesContent', JSON.stringify(siteContent));
+                
+                console.log("💾 Datos guardados:", {
+                    noticias: newsData.length,
+                    galeria: galleryData.length,
+                    videos: christmasVideoData.filter(v => v).length
+                });
+            } catch (error) {
+                console.error("Error guardando datos:", error);
+                alert("Error al guardar los datos.");
+            }
+        }
+
+        function getDefaultNews() {
+            return [
+                {
+                    title: "Campaña de Donaciones de Útiles Escolares",
+                    text: "Estamos recolectando útiles escolares para niños de escasos recursos de la comunidad. Tu ayuda puede hacer la diferencia.",
+                    image: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80",
+                    date: "15 Octubre 2023"
+                },
+                {
+                    title: "Preparativos para el Sueño de Navidad 2023",
+                    text: "Ya comenzamos los preparativos para nuestra campaña navideña. Necesitamos voluntarios y donaciones.",
+                    image: "https://images.unsplash.com/photo-1544984243-ec57ea16fe25?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80",
+                    date: "5 Octubre 2023"
+                }
+            ];
+        }
+
+        function getDefaultHelp() {
+            return [
+                {
+                    title: "Donaciones Monetarias",
+                    description: "Puedes realizar donaciones a través de SINPE móvil o transferencias bancarias a nuestras cuentas.",
+                    icon: "fas fa-hand-holding-usd"
+                },
+                {
+                    title: "Donaciones en Especie",
+                    description: "Aceptamos alimentos, ropa, juguetes, medicamentos y otros artículos de primera necesidad.",
+                    icon: "fas fa-box"
+                },
+                {
+                    title: "Voluntariado",
+                    description: "Únete a nuestro equipo de voluntarios y participa directamente en nuestras actividades.",
+                    icon: "fas fa-hands-helping"
+                },
+                {
+                    title: "Difusión",
+                    description: "Comparte nuestra labor en redes sociales y ayuda a dar visibilidad a nuestras causas.",
+                    icon: "fas fa-bullhorn"
+                }
+            ];
+        }
+
+        function getDefaultEthics() {
+            return [
+                "Mostrar mi fe en la bondad de mi vocación aplicándome industriosamente hasta lograr una buena reputación por la alta calidad de mis servicios.",
+                "Buscar el éxito y exigir toda remuneración o ganancia justa que pueda merecer, pero rehusar toda ganancia o recompensa que pudiera resultar en menoscabo o pérdida de mi dignidad, como efecto del aprovechamiento de alguna ventaja injusta, o de acciones dudosas mías.",
+                "Recordar que para desarrollar mi negocio no es necesario destruir el de otro, ser leal con mis clientes y sincero para conmigo mismo.",
+                "Dondequiera que surja alguna duda, en cuanto al derecho o a la ética de mi posición o acción hacia otras personas resolver esa duda a costa de mí mismo.",
+                "Practicar la amistad como un fin y no como un medio. Sostener que la verdadera amistad existe, no por razón del servicio prestado, sino que se acepta con el mismo espíritu con que se realiza, sin pedir nada por ello.",
+                "Tener siempre presente mis obligaciones de ciudadano para con mi nación, mi estado y mi comunidad, profesándoles mi lealtad constante de pensamiento, palabra y obra, y dedicándoles generosamente mi tiempo, mi trabajo y mis recursos.",
+                "Ayudar al prójimo consolando al atribulado, fortaleciendo al débil y socorriendo al menesteroso.",
+                "Ser mesurado en la crítica y liberal en el elogio, construir y no destruir."
+            ];
+        }
+
+        function getDefaultBank() {
+            return [
+                {
+                    bank: "BAC CREDOMATIC",
+                    sinpe: "8322-6111",
+                    colones: "800800807",
+                    CuentaIBANColones: "CR17010200008008008070",
+                    dolares: "800800815",
+                    CuentaIBANDolares: "CR07010200008008008153",
+                    cedula: "CEDULA JURIDICA 3-002-045681"
+                },
+                {
+                    bank: "Banco de Costa Rica",
+                    sinpe: "8322-6111",
+                    colones: "001-0509472-0",
+                    CuentaIBANColones: "CR77015201001050947204",
+                    dolares: "001-0276483-0",
+                    CuentaIBANDolares: "CR06015201001027648306",
+                    cedula: "CEDULA JURIDICA 3-002-045681"
+                }
+            ];
+        }
+
+        function getDefaultGallery() {
+            return [
+                {
+                    title: "Evento de Recolección de Alimentos",
+                    description: "Voluntarios del club durante la campaña de recolección de alimentos para familias necesitadas.",
+                    image: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1774&q=80"
+                },
+                {
+                    title: "Entrega de Regalos Navideños",
+                    description: "Entregando alegría y regalos a niños de la comunidad durante nuestra campaña navideña.",
+                    image: "https://images.unsplash.com/photo-1574359411659-619d037f3f54?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80"
+                },
+                {
+                    title: "Reunión de Planificación",
+                    description: "Miembros del club reunidos para planificar las próximas actividades y proyectos.",
+                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80"
+                },
+                {
+                    title: "Actividad Comunitaria",
+                    description: "Participación en actividades de mejoramiento de espacios públicos.",
+                    image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1774&q=80"
+                }
+            ];
+        }
+
+        function getDefaultContent() {
+            return {
+                heroTitle: "Servicio que Transforma Comunidades",
+                heroText: "Juntos construimos un futuro mejor para San Sebastián y sus habitantes a través del servicio desinteresado y la solidaridad.",
+                missionTitle: "Nuestra Misión",
+                missionText: "La Asociación Club de Leones de San Sebastián es una organización con intereses benéficos y de servicio y no pretende el lucro ni para sí ni para sus asociados.",
+                christmasTitle: "Sueño de Navidad",
+                christmasText: "La participación del leonismo en este programa nace hace más de 15 años a raíz del interés de Televisora de Costa Rica-Canal 7, propiamente de Telenoticias por llevar a cabo un proyecto de este tipo.",
+                ethicsTitle: "Código de Ética",
+                ethicsIntro: "Nuestro código de ética define los principios fundamentales que guían nuestras acciones y decisiones como miembros del Club de Leones.",
+                objectives: `<p>a. Trabajar en forma activa y por todos los medios a su alcance, para desarrollar una profunda amistad y cordialidad entre los asociados y sus familias.</p>
+                            <p>b. Participar activamente en los diversos movimientos que proporcionen el desarrollo tanto a nivel de la comunidad como a nivel nacional.</p>
+                            <p>c. Estimular las normas de ética y el espíritu de servicio hacia los más necesitados de la comunidad, sin esperar por ello alguna recompensa ó retribución.</p>`,
+                heroImage: "",
+                missionImage: "",
+                christmasImage: ""
+            };
+        }
+
+        function loadDefaultData() {
+            newsData = getDefaultNews();
+            helpData = getDefaultHelp();
+            ethicsData = getDefaultEthics();
+            bankData = getDefaultBank();
+            galleryData = getDefaultGallery();
+            christmasVideoData = ["", ""];
+            siteContent = getDefaultContent();
+        }
+
+        // ===== SISTEMA MEJORADO PARA VIDEOS LOCALES =====
+
+        // Función para subir video a Firebase
+        function uploadVideoAndUpdate(file, folder, index, type) {
+            return new Promise((resolve, reject) => {
+                const user = auth.currentUser;
+                if (!user) {
+                    reject(new Error('Usuario no autenticado'));
+                    return;
+                }
+
+                const timestamp = Date.now();
+                const fileName = `${folder}/${timestamp}_${file.name}`;
+                const storageRef = storage.ref().child(fileName);
+
+                const uploadTask = storageRef.put(file);
+
+                uploadTask.on('state_changed',
+                    (snapshot) => {
+                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        console.log(`Subiendo ${type} ${index}: ${progress}%`);
+                    },
+                    (error) => {
+                        console.error(`Error subiendo ${type} ${index}:`, error);
+                        reject(error);
+                    },
+                    () => {
+                        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                            console.log(`✅ ${type} ${index} subido:`, downloadURL);
+                            
+                            // ACTUALIZAR INMEDIATAMENTE los datos
+                            if (type === 'video') {
+                                christmasVideoData[index] = downloadURL;
+                            }
+                            
+                            // Guardar en localStorage inmediatamente
+                            saveAllData();
+                            
+                            // Actualizar la vista
+                            if (type === 'video') {
+                                renderChristmasVideos();
+                            }
+                            
+                            resolve(downloadURL);
+                        });
+                    }
+                );
+            });
+        }
+
+        // Función para manejar subida de videos
+        function handleVideoUpload(fileInput, index, type, folder = 'videos') {
+            if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                
+                // Validar que sea un archivo de video
+                if (!file.type.startsWith('video/')) {
+                    alert('Por favor selecciona un archivo de video válido (MP4, WebM, etc.)');
+                    return;
+                }
+                
+                if (file.size > 50 * 1024 * 1024) { // 50MB límite
+                    alert('El video es demasiado grande. Por favor usa un video menor a 50MB.');
+                    return;
+                }
+
+                // Mostrar estado de carga
+                const statusDiv = document.createElement('div');
+                statusDiv.className = 'upload-status upload-loading';
+                statusDiv.textContent = 'Subiendo video...';
+                fileInput.parentNode.appendChild(statusDiv);
+
+                // Subir y actualizar inmediatamente
+                uploadVideoAndUpdate(file, folder, index, type)
+                    .then((downloadURL) => {
+                        statusDiv.className = 'upload-status upload-success';
+                        statusDiv.textContent = '¡Video subido y guardado!';
+                        
+                        // Actualizar previsualización
+                        updateVideoPreview(index, downloadURL);
+                        
+                        // Limpiar input
+                        fileInput.value = '';
+                        
+                        setTimeout(() => {
+                            statusDiv.remove();
+                        }, 3000);
+                    })
+                    .catch((error) => {
+                        console.error('Error completo:', error);
+                        statusDiv.className = 'upload-status upload-error';
+                        statusDiv.textContent = 'Error: ' + error.message;
+                        
+                        setTimeout(() => {
+                            statusDiv.remove();
+                        }, 5000);
+                    });
+            }
+        }
+
+        // Función para actualizar previsualización de video
+        function updateVideoPreview(index, videoUrl) {
+            const previewElement = document.getElementById(`adminVideoPreview${index + 1}`);
+            if (previewElement && videoUrl) {
+                previewElement.innerHTML = `
+                    <small>Video cargado correctamente</small>
+                    <video controls style="max-width: 200px; max-height: 150px; margin-top: 0.5rem; border-radius: 5px;">
+                        <source src="${videoUrl}" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                `;
+            }
+        }
+
+        // Función para renderizar videos locales
+        function renderVideo(elementId, videoUrl) {
+            const container = document.getElementById(elementId);
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (!videoUrl || videoUrl.trim() === '') {
+                container.innerHTML = `
+                    <div class="video-fallback">
+                        <i class="fas fa-film"></i>
+                        <h3>No hay video disponible</h3>
+                        <p>El administrador puede subir un video desde el panel de administración</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let cleanUrl = videoUrl.trim();
+            console.log('🔄 Procesando video local:', cleanUrl);
+            
+            // Mostrar indicador de carga
+            container.innerHTML = `
+                <div class="video-loading">
+                    <i class="fas fa-spinner"></i>
+                    <span>Cargando video...</span>
+                </div>
+            `;
+            
+            // Crear elemento de video
+            setTimeout(() => {
+                const videoElement = document.createElement('video');
+                videoElement.src = cleanUrl;
+                videoElement.controls = true;
+                videoElement.style.width = '100%';
+                videoElement.style.height = '400px';
+                videoElement.style.display = 'block';
+                
+                // Controles personalizados
+                const controlsDiv = document.createElement('div');
+                controlsDiv.className = 'video-controls';
+                controlsDiv.innerHTML = `
+                    <button onclick="this.parentElement.parentElement.querySelector('video').play()">
+                        <i class="fas fa-play"></i> Reproducir
+                    </button>
+                    <button onclick="this.parentElement.parentElement.querySelector('video').pause()">
+                        <i class="fas fa-pause"></i> Pausar
+                    </button>
+                    <button onclick="this.parentElement.parentElement.querySelector('video').volume += 0.1">
+                        <i class="fas fa-volume-up"></i> +
+                    </button>
+                    <button onclick="this.parentElement.parentElement.querySelector('video').volume -= 0.1">
+                        <i class="fas fa-volume-down"></i> -
+                    </button>
+                `;
+                
+                // Limpiar contenedor y agregar video
+                container.innerHTML = '';
+                container.appendChild(videoElement);
+                container.appendChild(controlsDiv);
+                
+                console.log('✅ Video local cargado:', cleanUrl);
+                
+                // Manejar errores del video
+                videoElement.onerror = function() {
+                    console.error('❌ Error al cargar el video');
+                    container.innerHTML = `
+                        <div class="video-error">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                            <h3>No se puede mostrar el video</h3>
+                            <p>Error al cargar el archivo de video</p>
+                            <p><strong>Posibles causas:</strong></p>
+                            <ul style="text-align: left; margin: 1rem 0;">
+                                <li>El formato de video no es compatible</li>
+                                <li>El archivo está corrupto</li>
+                                <li>Problemas de conexión</li>
+                            </ul>
+                        </div>
+                    `;
+                };
+                
+            }, 1000);
+        }
+
+        // Función para renderizar videos de Navidad
+        function renderChristmasVideos() {
+            console.log('🎬 Renderizando videos de Navidad:', christmasVideoData);
+            renderVideo('christmasVideo1', christmasVideoData[0] || '');
+            renderVideo('christmasVideo2', christmasVideoData[1] || '');
+        }
+
+        // ===== SISTEMA MEJORADO DE SUBIDA DE IMÁGENES =====
+
+        // Función para subir imagen y ACTUALIZAR INMEDIATAMENTE
+        function uploadImageAndUpdate(file, folder, index, type) {
+            return new Promise((resolve, reject) => {
+                const user = auth.currentUser;
+                if (!user) {
+                    reject(new Error('Usuario no autenticado'));
+                    return;
+                }
+
+                const timestamp = Date.now();
+                const fileName = `${folder}/${timestamp}_${file.name}`;
+                const storageRef = storage.ref().child(fileName);
+
+                const uploadTask = storageRef.put(file);
+
+                uploadTask.on('state_changed',
+                    (snapshot) => {
+                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        console.log(`Subiendo ${type} ${index}: ${progress}%`);
+                    },
+                    (error) => {
+                        console.error(`Error subiendo ${type} ${index}:`, error);
+                        reject(error);
+                    },
+                    () => {
+                        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                            console.log(`✅ ${type} ${index} subida:`, downloadURL);
+                            
+                            // ACTUALIZAR INMEDIATAMENTE los datos
+                            if (type === 'news') {
+                                newsData[index].image = downloadURL;
+                            } else if (type === 'gallery') {
+                                galleryData[index].image = downloadURL;
+                            } else if (type === 'hero') {
+                                siteContent.heroImage = downloadURL;
+                            } else if (type === 'mission') {
+                                siteContent.missionImage = downloadURL;
+                            } else if (type === 'christmas') {
+                                siteContent.christmasImage = downloadURL;
+                            }
+                            
+                            // Guardar en localStorage inmediatamente
+                            saveAllData();
+                            
+                            // Actualizar la vista
+                            if (type === 'news') {
+                                renderNews();
+                            } else if (type === 'gallery') {
+                                renderGalleryPreview();
+                            } else if (type === 'hero') {
+                                document.querySelector('.hero').style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${downloadURL})`;
+                            } else if (type === 'mission') {
+                                document.getElementById('missionImage').src = downloadURL;
+                            } else if (type === 'christmas') {
+                                document.getElementById('christmasImage').src = downloadURL;
+                            }
+                            
+                            resolve(downloadURL);
+                        });
+                    }
+                );
+            });
+        }
+
+        // Función mejorada para manejar subida de imágenes
+        function handleImageUpload(fileInput, index, type, folder = 'images') {
+            if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('La imagen es demasiado grande. Por favor usa una imagen menor a 5MB.');
+                    return;
+                }
+
+                // Mostrar estado de carga
+                const statusDiv = document.createElement('div');
+                statusDiv.className = 'upload-status upload-loading';
+                statusDiv.textContent = 'Subiendo imagen...';
+                fileInput.parentNode.appendChild(statusDiv);
+
+                // Subir y actualizar inmediatamente
+                uploadImageAndUpdate(file, folder, index, type)
+                    .then((downloadURL) => {
+                        statusDiv.className = 'upload-status upload-success';
+                        statusDiv.textContent = '¡Imagen subida y guardada!';
+                        
+                        // Limpiar input
+                        fileInput.value = '';
+                        
+                        setTimeout(() => {
+                            statusDiv.remove();
+                        }, 3000);
+                    })
+                    .catch((error) => {
+                        console.error('Error completo:', error);
+                        statusDiv.className = 'upload-status upload-error';
+                        statusDiv.textContent = 'Error: ' + error.message;
+                        
+                        setTimeout(() => {
+                            statusDiv.remove();
+                        }, 5000);
+                    });
+            }
+        }
+
+        // ===== FUNCIONES DE RENDERIZADO MEJORADAS =====
+
+        function renderNews() {
+            const newsGrid = document.getElementById('newsGrid');
+            const newsDebug = document.getElementById('newsDebug');
+            const newsCount = document.getElementById('newsCount');
+            
+            if (!newsGrid) return;
+            
+            console.log('🎬 Renderizando noticias:', newsData);
+            
+            // Mostrar debug info
+            newsDebug.style.display = 'block';
+            newsCount.textContent = newsData.length;
+            
+            newsGrid.innerHTML = '';
+            
+            if (newsData.length === 0) {
+                newsGrid.innerHTML = '<div class="image-placeholder">No hay noticias disponibles</div>';
+                return;
+            }
+            
+            newsData.forEach((news, index) => {
+                const newsCard = document.createElement('div');
+                newsCard.className = 'news-card';
+                
+                // Verificar si la imagen existe
+                const imageSrc = news.image && news.image.trim() !== '' ? news.image : 'https://via.placeholder.com/300x200/1565c0/ffffff?text=Imagen+No+Disponible';
+                const imageAlt = news.title || 'Noticia';
+                
+                newsCard.innerHTML = `
+                    <div class="news-image">
+                        <img src="${imageSrc}" alt="${imageAlt}" 
+                             onerror="this.src='https://via.placeholder.com/300x200/ff0000/ffffff?text=Error+Cargando+Imagen'">
+                        ${!news.image || news.image.trim() === '' ? 
+                          '<div class="image-placeholder" style="position:absolute; top:0; left:0; right:0; bottom:0;">Sin imagen</div>' : ''}
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">${news.date || 'Fecha no especificada'}</div>
+                        <h3 class="news-title">${news.title || 'Sin título'}</h3>
+                        <p class="news-excerpt">${news.text || 'Sin descripción'}</p>
+                    </div>
+                `;
+                newsGrid.appendChild(newsCard);
+                
+                // Animación
+                setTimeout(() => {
+                    newsCard.classList.add('visible');
+                }, index * 200);
+            });
+            
+            console.log('✅ Noticias renderizadas correctamente');
+        }
+
+        function renderGalleryPreview() {
+            const galleryPreviewGrid = document.getElementById('galleryPreviewGrid');
+            const galleryDebug = document.getElementById('galleryDebug');
+            const galleryCount = document.getElementById('galleryCount');
+            
+            if (!galleryPreviewGrid) return;
+            
+            console.log('🎬 Renderizando galería:', galleryData);
+            
+            // Mostrar debug info
+            galleryDebug.style.display = 'block';
+            galleryCount.textContent = galleryData.length;
+            
+            galleryPreviewGrid.innerHTML = '';
+            
+            if (galleryData.length === 0) {
+                galleryPreviewGrid.innerHTML = '<div class="image-placeholder">No hay imágenes en la galería</div>';
+                return;
+            }
+            
+            const previewImages = galleryData.slice(0, 4);
+            
+            previewImages.forEach((gallery, index) => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-preview-item';
+                
+                // Verificar si la imagen existe
+                const imageSrc = gallery.image && gallery.image.trim() !== '' ? gallery.image : 'https://via.placeholder.com/250x200/1565c0/ffffff?text=Imagen+No+Disponible';
+                const imageAlt = gallery.title || 'Galería';
+                
+                galleryItem.innerHTML = `
+                    <img src="${imageSrc}" alt="${imageAlt}" 
+                         onerror="this.src='https://via.placeholder.com/250x200/ff0000/ffffff?text=Error+Cargando+Imagen'">
+                    ${!gallery.image || gallery.image.trim() === '' ? 
+                      '<div class="image-placeholder">Sin imagen</div>' : ''}
+                `;
+                galleryPreviewGrid.appendChild(galleryItem);
+            });
+            
+            console.log('✅ Galería renderizada correctamente');
+        }
+
+        // ===== FUNCIONES DE CARGA Y RENDERIZADO PRINCIPAL =====
+
+        function loadFromStorage() {
+            loadAllData();
+            
+            if (siteContent.heroTitle) document.getElementById('heroTitle').textContent = siteContent.heroTitle;
+            if (siteContent.heroText) document.getElementById('heroText').textContent = siteContent.heroText;
+            if (siteContent.missionTitle) document.getElementById('missionTitle').textContent = siteContent.missionTitle;
+            if (siteContent.missionText) document.getElementById('missionText').textContent = siteContent.missionText;
+            if (siteContent.christmasTitle) document.getElementById('christmasTitle').textContent = siteContent.christmasTitle;
+            if (siteContent.christmasText) document.getElementById('christmasText').textContent = siteContent.christmasText;
+            if (siteContent.ethicsTitle) document.getElementById('ethicsTitle').textContent = siteContent.ethicsTitle;
+            if (siteContent.ethicsIntro) document.getElementById('ethicsIntro').textContent = siteContent.ethicsIntro;
+            if (siteContent.objectives) document.getElementById('objectivesText').innerHTML = siteContent.objectives;
+            
+            if (siteContent.heroImage) {
+                document.querySelector('.hero').style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${siteContent.heroImage})`;
+            }
+            if (siteContent.missionImage) {
+                document.getElementById('missionImage').src = siteContent.missionImage;
+            }
+            if (siteContent.christmasImage) {
+                document.getElementById('christmasImage').src = siteContent.christmasImage;
+            }
+            
+            renderNews();
+            renderHelp();
+            renderEthics();
+            renderBankCards();
+            renderGalleryPreview();
+            renderChristmasVideos();
+        }
+
+        // ===== FUNCIONES AUXILIARES =====
+
+        function renderHelp() {
+            const helpOptions = document.getElementById('helpOptions');
+            if (!helpOptions) return;
+            
+            helpOptions.innerHTML = '';
+            
+            helpData.forEach((help, index) => {
+                const helpOption = document.createElement('div');
+                helpOption.className = 'help-option';
+                helpOption.innerHTML = `
+                    <div class="help-icon">
+                        <i class="${help.icon}"></i>
+                    </div>
+                    <h3 class="help-title">${help.title}</h3>
+                    <p class="help-description">${help.description}</p>
+                `;
+                helpOptions.appendChild(helpOption);
+                
+                setTimeout(() => {
+                    helpOption.classList.add('visible');
+                }, index * 150);
+            });
+        }
+
+        function renderEthics() {
+            const ethicsGrid = document.getElementById('ethicsGrid');
+            if (!ethicsGrid) return;
+            
+            ethicsGrid.innerHTML = '';
+            
+            const ethicsIcons = [
+                "fas fa-award",
+                "fas fa-star",
+                "fas fa-handshake",
+                "fas fa-balance-scale",
+                "fas fa-heart",
+                "fas fa-flag",
+                "fas fa-hands-helping",
+                "fas fa-comments",
+                "fas fa-users",
+                "fas fa-shield-alt"
+            ];
+            
+            ethicsData.forEach((ethic, index) => {
+                if (ethic.trim() === '') return;
+                
+                const ethicsCard = document.createElement('div');
+                ethicsCard.className = 'ethics-card';
+                ethicsCard.innerHTML = `
+                    <div class="ethics-card-header">
+                        <div class="ethics-card-icon">
+                            <i class="${ethicsIcons[index] || 'fas fa-star'}"></i>
+                        </div>
+                        <h3 class="ethics-card-title">Principio ${index + 1}</h3>
+                    </div>
+                    <div class="ethics-card-content">
+                        <p>${ethic}</p>
+                    </div>
+                `;
+                ethicsGrid.appendChild(ethicsCard);
+            });
+        }
+
+        function renderBankCards() {
+            const bankCards = document.getElementById('bankCards');
+            if (!bankCards) return;
+            
+            bankCards.innerHTML = '';
+            
+            bankData.forEach((bank, index) => {
+                const bankCard = document.createElement('div');
+                bankCard.className = 'bank-card';
+                bankCard.innerHTML = `
+                    <h3>${bank.bank}</h3>
+                    <div class="bank-info">
+                        <div class="bank-item">
+                            <span class="bank-label">SINPE Móvil:</span>
+                            <span class="bank-value">${bank.sinpe}</span>
+                        </div>
+                        <div class="bank-item">
+                            <span class="bank-label">Colones:</span>
+                            <span class="bank-value">${bank.colones}</span>
+                        </div>
+                        <div class="bank-item">
+                            <span class="bank-label">Cuenta IBAN Colones:</span>
+                            <span class="bank-value">${bank.CuentaIBANColones}</span>
+                        </div>
+                        <div class="bank-item">
+                            <span class="bank-label">Dólares:</span>
+                            <span class="bank-value">${bank.dolares}</span>
+                        </div>
+                        <div class="bank-item">
+                            <span class="bank-label">Cuenta IBAN Dólares:</span>
+                            <span class="bank-value">${bank.CuentaIBANDolares}</span>
+                        </div>
+                        <div class="bank-item">
+                            <span class="bank-label">Cédula Jurídica:</span>
+                            <span class="bank-value">${bank.cedula}</span>
+                        </div>
+                    </div>
+                `;
+                bankCards.appendChild(bankCard);
+            });
+        }
+
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            if (!particlesContainer) return;
+            
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 5 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                const duration = Math.random() * 20 + 10;
+                particle.style.animationDuration = `${duration}s`;
+                
+                const delay = Math.random() * 5;
+                particle.style.animationDelay = `${delay}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        function checkScroll() {
+            const sections = document.querySelectorAll('section');
+            const stats = document.querySelectorAll('.stat');
+            const newsCards = document.querySelectorAll('.news-card');
+            const helpOptions = document.querySelectorAll('.help-option');
+            const ethicsCards = document.querySelectorAll('.ethics-card');
+            const galleryItems = document.querySelectorAll('.gallery-preview-item');
+            
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (sectionTop < windowHeight * 0.85) {
+                    section.classList.add('visible');
+                }
+            });
+            
+            stats.forEach((stat, index) => {
+                const statTop = stat.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (statTop < windowHeight * 0.85) {
+                    setTimeout(() => {
+                        stat.classList.add('visible');
+                    }, index * 200);
+                }
+            });
+            
+            newsCards.forEach((card, index) => {
+                const cardTop = card.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (cardTop < windowHeight * 0.85) {
+                    setTimeout(() => {
+                        card.classList.add('visible');
+                    }, index * 200);
+                }
+            });
+            
+            helpOptions.forEach((option, index) => {
+                const optionTop = option.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (optionTop < windowHeight * 0.85) {
+                    setTimeout(() => {
+                        option.classList.add('visible');
+                    }, index * 150);
+                }
+            });
+            
+            ethicsCards.forEach((card, index) => {
+                const cardTop = card.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (cardTop < windowHeight * 0.85) {
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 100);
+                }
+            });
+            
+            galleryItems.forEach((item, index) => {
+                const itemTop = item.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (itemTop < windowHeight * 0.85) {
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    }, index * 100);
+                }
+            });
+        }
+
+        function headerScroll() {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 50) {
+                header.classList.add('header-scrolled');
+            } else {
+                header.classList.remove('header-scrolled');
+            }
+        }
+
+        // ===== FUNCIONES DEL PANEL DE ADMINISTRACIÓN =====
+
+        function loadAdminValues() {
+            document.getElementById('adminHeroTitle').value = siteContent.heroTitle || '';
+            document.getElementById('adminHeroText').value = siteContent.heroText || '';
+            
+            document.getElementById('adminMissionTitle').value = siteContent.missionTitle || '';
+            document.getElementById('adminMissionText').value = siteContent.missionText || '';
+            document.getElementById('adminObjectives').value = siteContent.objectives ? siteContent.objectives.replace(/<p>/g, '').replace(/<\/p>/g, '\n').trim() : '';
+            
+            document.getElementById('adminEthicsTitle').value = siteContent.ethicsTitle || '';
+            document.getElementById('adminEthicsIntro').value = siteContent.ethicsIntro || '';
+            document.getElementById('adminEthics').value = ethicsData.join('\n');
+            
+            document.getElementById('adminChristmasTitle').value = siteContent.christmasTitle || '';
+            document.getElementById('adminChristmasText').value = siteContent.christmasText || '';
+            
+            document.getElementById('adminBankInfo').value = bankData.map(bank => 
+                `${bank.bank}
+SINPE Móvil: ${bank.sinpe}
+Cuenta Colones: ${bank.colones}
+Cuenta IBAN Colones: ${bank.CuentaIBANColones}
+Cuenta Dólares: ${bank.dolares}
+Cuenta IBAN Dólares: ${bank.CuentaIBANDolares}
+${bank.cedula}`
+            ).join('\n\n');
+            
+            // Actualizar previsualizaciones de video
+            updateVideoPreviews();
+            
+            loadNewsControls();
+            loadHelpControls();
+            loadGalleryControls();
+        }
+
+        function updateVideoPreviews() {
+            const preview1 = document.getElementById('adminVideoPreview1');
+            const preview2 = document.getElementById('adminVideoPreview2');
+            
+            if (preview1) {
+                if (christmasVideoData[0]) {
+                    preview1.innerHTML = `
+                        <small>Video cargado correctamente</small>
+                        <video controls style="max-width: 200px; max-height: 150px; margin-top: 0.5rem; border-radius: 5px;">
+                            <source src="${christmasVideoData[0]}" type="video/mp4">
+                            Tu navegador no soporta el elemento de video.
+                        </video>
+                    `;
+                } else {
+                    preview1.innerHTML = '<small>No hay video cargado</small>';
+                }
+            }
+            
+            if (preview2) {
+                if (christmasVideoData[1]) {
+                    preview2.innerHTML = `
+                        <small>Video cargado correctamente</small>
+                        <video controls style="max-width: 200px; max-height: 150px; margin-top: 0.5rem; border-radius: 5px;">
+                            <source src="${christmasVideoData[1]}" type="video/mp4">
+                            Tu navegador no soporta el elemento de video.
+                        </video>
+                    `;
+                } else {
+                    preview2.innerHTML = '<small>No hay video cargado</small>';
+                }
+            }
+        }
+
+        function loadNewsControls() {
+            const newsControls = document.getElementById('newsControls');
+            if (!newsControls) return;
+            
+            newsControls.innerHTML = '';
+            
+            newsData.forEach((news, index) => {
+                const newsControl = document.createElement('div');
+                newsControl.className = 'admin-control';
+                newsControl.innerHTML = `
+                    <h4>Noticia ${index + 1}</h4>
+                    <label for="adminNewsTitle${index}">Título</label>
+                    <input type="text" id="adminNewsTitle${index}" value="${news.title || ''}">
+                    <label for="adminNewsText${index}">Texto</label>
+                    <textarea id="adminNewsText${index}" rows="3">${news.text || ''}</textarea>
+                    <label for="adminNewsDate${index}">Fecha</label>
+                    <input type="text" id="adminNewsDate${index}" value="${news.date || ''}">
+                    <div class="file-upload">
+                        <label for="adminNewsImage${index}">Imagen</label>
+                        <input type="file" id="adminNewsImage${index}" accept="image/*">
+                        <div style="margin-top: 5px;">
+                            <small>Imagen actual: ${news.image ? '✓ Cargada' : 'No hay imagen'}</small>
+                            ${news.image ? `<br><img src="${news.image}" class="image-preview" alt="Preview">` : ''}
+                        </div>
+                    </div>
+                    <button class="remove-card-btn" data-index="${index}">Eliminar Noticia</button>
+                `;
+                newsControls.appendChild(newsControl);
+                
+                // Event listener para subida de imagen
+                const imageInput = document.getElementById(`adminNewsImage${index}`);
+                if (imageInput) {
+                    imageInput.addEventListener('change', function() {
+                        handleImageUpload(this, index, 'news', 'news');
+                    });
+                }
+                
+                // Event listener para eliminar
+                newsControl.querySelector('.remove-card-btn').addEventListener('click', function() {
+                    removeNewsCard(index);
+                });
+            });
+        }
+
+        function loadHelpControls() {
+            const helpControls = document.getElementById('helpControls');
+            if (!helpControls) return;
+            
+            helpControls.innerHTML = '';
+            
+            helpData.forEach((help, index) => {
+                const helpControl = document.createElement('div');
+                helpControl.className = 'admin-control';
+                helpControl.innerHTML = `
+                    <h4>Opción ${index + 1}</h4>
+                    <label for="adminHelpTitle${index}">Título</label>
+                    <input type="text" id="adminHelpTitle${index}" value="${help.title || ''}">
+                    <label for="adminHelpText${index}">Descripción</label>
+                    <textarea id="adminHelpText${index}" rows="3">${help.description || ''}</textarea>
+                    <label for="adminHelpIcon${index}">Icono (clase FontAwesome)</label>
+                    <input type="text" id="adminHelpIcon${index}" value="${help.icon || ''}">
+                `;
+                helpControls.appendChild(helpControl);
+            });
+        }
+
+        function loadGalleryControls() {
+            const galleryControls = document.getElementById('galleryControls');
+            if (!galleryControls) return;
+            
+            galleryControls.innerHTML = '';
+            
+            galleryData.forEach((gallery, index) => {
+                const galleryControl = document.createElement('div');
+                galleryControl.className = 'admin-control';
+                galleryControl.innerHTML = `
+                    <h4>Imagen ${index + 1}</h4>
+                    <label for="adminGalleryTitle${index}">Título</label>
+                    <input type="text" id="adminGalleryTitle${index}" value="${gallery.title || ''}">
+                    <label for="adminGalleryDescription${index}">Descripción</label>
+                    <textarea id="adminGalleryDescription${index}" rows="3">${gallery.description || ''}</textarea>
+                    <div class="file-upload">
+                        <label for="adminGalleryImage${index}">Imagen</label>
+                        <input type="file" id="adminGalleryImage${index}" accept="image/*">
+                        <div style="margin-top: 5px;">
+                            <small>Imagen actual: ${gallery.image ? '✓ Cargada' : 'No hay imagen'}</small>
+                            ${gallery.image ? `<br><img src="${gallery.image}" class="image-preview" alt="Preview">` : ''}
+                        </div>
+                    </div>
+                    <button class="remove-card-btn" data-index="${index}">Eliminar Imagen</button>
+                `;
+                galleryControls.appendChild(galleryControl);
+                
+                // Event listener para subida de imagen
+                const imageInput = document.getElementById(`adminGalleryImage${index}`);
+                if (imageInput) {
+                    imageInput.addEventListener('change', function() {
+                        handleImageUpload(this, index, 'gallery', 'gallery');
+                    });
+                }
+                
+                // Event listener para eliminar
+                galleryControl.querySelector('.remove-card-btn').addEventListener('click', function() {
+                    removeGalleryCard(index);
+                });
+            });
+        }
+
+        function removeNewsCard(index) {
+            if (newsData.length > 1) {
+                newsData.splice(index, 1);
+                loadNewsControls();
+                renderNews();
+            } else {
+                alert('Debe haber al menos una noticia.');
+            }
+        }
+
+        function removeGalleryCard(index) {
+            if (galleryData.length > 1) {
+                galleryData.splice(index, 1);
+                loadGalleryControls();
+                renderGalleryPreview();
+            } else {
+                alert('Debe haber al menos una imagen en la galería.');
+            }
+        }
+
+        function addNewsCard() {
+            newsData.push({
+                title: "Nueva Noticia",
+                text: "Descripción de la nueva noticia.",
+                image: "https://images.unsplash.com/photo-1544984243-ec57ea16fe25?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80",
+                date: new Date().toLocaleDateString('es-ES')
+            });
+            loadNewsControls();
+            renderNews();
+        }
+
+        function addGalleryCard() {
+            galleryData.push({
+                title: "Nueva Imagen",
+                description: "Descripción de la nueva imagen.",
+                image: "https://images.unsplash.com/photo-1544984243-ec57ea16fe25?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80"
+            });
+            loadGalleryControls();
+            renderGalleryPreview();
+        }
+
+        // ===== FUNCIÓN DE GUARDADO PRINCIPAL =====
+
+        function saveAdminChanges() {
+            console.log('💾 INICIANDO GUARDADO COMPLETO...');
+            
+            try {
+                // 1. Guardar contenido básico
+                siteContent.heroTitle = document.getElementById('adminHeroTitle').value;
+                siteContent.heroText = document.getElementById('adminHeroText').value;
+                siteContent.missionTitle = document.getElementById('adminMissionTitle').value;
+                siteContent.missionText = document.getElementById('adminMissionText').value;
+                siteContent.christmasTitle = document.getElementById('adminChristmasTitle').value;
+                siteContent.christmasText = document.getElementById('adminChristmasText').value;
+                siteContent.ethicsTitle = document.getElementById('adminEthicsTitle').value;
+                siteContent.ethicsIntro = document.getElementById('adminEthicsIntro').value;
+
+                // 2. Objetivos
+                const objectivesText = document.getElementById('adminObjectives').value.split('\n');
+                siteContent.objectives = objectivesText.map(obj => `<p>${obj}</p>`).join('');
+                
+                // 3. Procesar videos
+                const video1Input = document.getElementById('adminChristmasVideo1');
+                const video2Input = document.getElementById('adminChristmasVideo2');
+                
+                if (video1Input && video1Input.files && video1Input.files[0]) {
+                    handleVideoUpload(video1Input, 0, 'video', 'videos');
+                }
+                
+                if (video2Input && video2Input.files && video2Input.files[0]) {
+                    handleVideoUpload(video2Input, 1, 'video', 'videos');
+                }
+                
+                // 4. Actualizar noticias y galería (TEXTO SOLAMENTE)
+                updateNewsTextFromAdmin();
+                updateGalleryTextFromAdmin();
+                updateHelpFromAdmin();
+                
+                // 5. Ética
+                const ethicsText = document.getElementById('adminEthics');
+                if (ethicsText) {
+                    ethicsData = ethicsText.value.split('\n').filter(line => line.trim() !== '');
+                }
+                
+                // 6. Procesar imágenes principales
+                processMainImages();
+                
+                // 7. Guardar TODO
+                saveAllData();
+                
+                // 8. Recargar vista
+                loadFromStorage();
+                
+                console.log('✅ GUARDADO COMPLETADO EXITOSAMENTE');
+                alert('¡Todos los cambios han sido guardados correctamente!');
+                
+            } catch (error) {
+                console.error('❌ ERROR en guardado:', error);
+                alert('Error al guardar: ' + error.message);
+            }
+        }
+
+        // Funciones auxiliares para solo texto
+        function updateNewsTextFromAdmin() {
+            newsData.forEach((news, index) => {
+                const titleInput = document.getElementById(`adminNewsTitle${index}`);
+                const textInput = document.getElementById(`adminNewsText${index}`);
+                const dateInput = document.getElementById(`adminNewsDate${index}`);
+                
+                if (titleInput) news.title = titleInput.value;
+                if (textInput) news.text = textInput.value;
+                if (dateInput) news.date = dateInput.value;
+            });
+        }
+
+        function updateGalleryTextFromAdmin() {
+            galleryData.forEach((gallery, index) => {
+                const titleInput = document.getElementById(`adminGalleryTitle${index}`);
+                const descInput = document.getElementById(`adminGalleryDescription${index}`);
+                
+                if (titleInput) gallery.title = titleInput.value;
+                if (descInput) gallery.description = descInput.value;
+            });
+        }
+
+        function updateHelpFromAdmin() {
+            helpData.forEach((help, index) => {
+                const titleInput = document.getElementById(`adminHelpTitle${index}`);
+                const descInput = document.getElementById(`adminHelpText${index}`);
+                const iconInput = document.getElementById(`adminHelpIcon${index}`);
+                
+                if (titleInput) help.title = titleInput.value;
+                if (descInput) help.description = descInput.value;
+                if (iconInput) help.icon = iconInput.value;
+            });
+        }
+
+        function processMainImages() {
+            const heroImageInput = document.getElementById('adminHeroImage');
+            if (heroImageInput && heroImageInput.files && heroImageInput.files[0]) {
+                handleImageUpload(heroImageInput, 0, 'hero', 'hero');
+            }
+
+            const missionImageInput = document.getElementById('adminMissionImage');
+            if (missionImageInput && missionImageInput.files && missionImageInput.files[0]) {
+                handleImageUpload(missionImageInput, 0, 'mission', 'mission');
+            }
+
+            const christmasImageInput = document.getElementById('adminChristmasImage');
+            if (christmasImageInput && christmasImageInput.files && christmasImageInput.files[0]) {
+                handleImageUpload(christmasImageInput, 0, 'christmas', 'christmas');
+            }
+        }
+
+        // ===== INICIALIZACIÓN =====
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFromStorage();
+            createParticles();
+            checkScroll();
+            headerScroll();
+            setupEventListenersWithFirebase();
+            console.log("🚀 Sitio cargado - LISTO PARA USAR");
+            
+            // Mostrar información de debug
+            setTimeout(() => {
+                console.log("📊 ESTADO INICIAL:", {
+                    noticias: newsData,
+                    galeria: galleryData,
+                    videos: christmasVideoData
+                });
+            }, 1000);
+        });
+
+        function setupEventListenersWithFirebase() {
+            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+                document.getElementById('navMenu').classList.toggle('active');
+            });
+
+            document.getElementById('adminAccess').addEventListener('click', function() {
+                document.getElementById('adminModal').style.display = 'flex';
+            });
+
+            document.getElementById('adminCancel').addEventListener('click', function() {
+                document.getElementById('adminModal').style.display = 'none';
+            });
+
+            document.getElementById('adminLogin').addEventListener('click', function() {
+                const email = document.getElementById('adminUser').value;
+                const password = document.getElementById('adminPassword').value;
+                const alertBox = document.getElementById('adminAlert');
+                
+                if (!email || !password) {
+                    showAdminAlert('Por favor completa todos los campos', 'error');
+                    return;
+                }
+                
+                firebaseLogin(email, password)
+                    .then((userCredential) => {
+                        document.getElementById('adminModal').style.display = 'none';
+                        showAdminAlert('Inicio de sesión exitoso', 'success');
+                    })
+                    .catch((error) => {
+                        console.error('Error de autenticación:', error);
+                        let errorMessage = 'Error al iniciar sesión';
+                        
+                        if (error.code === 'auth/user-not-found') {
+                            errorMessage = 'Usuario no encontrado';
+                        } else if (error.code === 'auth/wrong-password') {
+                            errorMessage = 'Contraseña incorrecta';
+                        } else if (error.code === 'auth/invalid-email') {
+                            errorMessage = 'Correo electrónico inválido';
+                        }
+                        
+                        showAdminAlert(errorMessage, 'error');
+                    });
+            });
+
+            document.getElementById('adminLogout').addEventListener('click', function() {
+                firebaseLogout()
+                    .then(() => {
+                        document.getElementById('adminPanel').style.display = 'none';
+                        console.log('Sesión cerrada correctamente');
+                    })
+                    .catch((error) => {
+                        console.error('Error al cerrar sesión:', error);
+                    });
+            });
+
+            document.getElementById('adminSave').addEventListener('click', function() {
+                console.log('🟡 Botón Guardar - CLICK DETECTADO');
+                saveAdminChanges();
+            });
+
+            document.getElementById('adminReset').addEventListener('click', function() {
+                if (confirm('¿Estás seguro de que quieres restablecer todos los datos? Se perderán los cambios no guardados.')) {
+                    loadDefaultData();
+                    saveAllData();
+                    loadFromStorage();
+                    loadAdminValues();
+                    alert('Datos restablecidos a valores por defecto');
+                }
+            });
+
+            document.getElementById('addNewsBtn').addEventListener('click', function() {
+                addNewsCard();
+            });
+
+            document.getElementById('addGalleryBtn').addEventListener('click', function() {
+                addGalleryCard();
+            });
+
+            // Event listeners para previsualización de videos
+            document.getElementById('adminChristmasVideo1').addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const file = this.files[0];
+                    const preview = document.getElementById('adminVideoPreview1');
+                    if (preview) {
+                        const videoUrl = URL.createObjectURL(file);
+                        preview.innerHTML = `
+                            <small>Previsualización:</small>
+                            <video controls style="max-width: 200px; max-height: 150px; margin-top: 0.5rem; border-radius: 5px;">
+                                <source src="${videoUrl}" type="${file.type}">
+                                Tu navegador no soporta el elemento de video.
+                            </video>
+                        `;
+                    }
+                }
+            });
+
+            document.getElementById('adminChristmasVideo2').addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const file = this.files[0];
+                    const preview = document.getElementById('adminVideoPreview2');
+                    if (preview) {
+                        const videoUrl = URL.createObjectURL(file);
+                        preview.innerHTML = `
+                            <small>Previsualización:</small>
+                            <video controls style="max-width: 200px; max-height: 150px; margin-top: 0.5rem; border-radius: 5px;">
+                                <source src="${videoUrl}" type="${file.type}">
+                                Tu navegador no soporta el elemento de video.
+                            </video>
+                        `;
+                    }
+                }
+            });
+
+            window.addEventListener('scroll', function() {
+                checkScroll();
+                headerScroll();
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        
+                        document.getElementById('navMenu').classList.remove('active');
+                    }
+                });
+            });
+
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('adminModal');
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const alertBox = document.getElementById('alert');
+                const spinner = document.getElementById('spinner');
+                const submitBtn = document.getElementById('submitBtn');
+                const originalText = submitBtn.innerHTML;
+                
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value;
+
+                if (!name || !email || !subject || !message) {
+                    showAlert('Por favor completa todos los campos', 'error');
+                    return;
+                }
+
+                if (!isValidEmail(email)) {
+                    showAlert('Por favor ingresa un email válido', 'error');
+                    return;
+                }
+
+                spinner.style.display = 'block';
+                alertBox.style.display = 'none';
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+                submitBtn.disabled = true;
+
+                setTimeout(() => {
+                    spinner.style.display = 'none';
+                    showAlert('¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.', 'success');
+                    document.getElementById('contactForm').reset();
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }, 2000);
+            });
+
+            function showAlert(message, type) {
+                const alertBox = document.getElementById('alert');
+                alertBox.textContent = message;
+                alertBox.className = 'alert';
+
+                if (type === 'success') {
+                    alertBox.classList.add('alert-success');
+                } else if (type === 'error') {
+                    alertBox.classList.add('alert-error');
+                }
+
+                alertBox.style.display = 'block';
+
+                setTimeout(() => {
+                    alertBox.style.display = 'none';
+                }, 5000);
+            }
+
+            function showAdminAlert(message, type) {
+                const alertBox = document.getElementById('adminAlert');
+                alertBox.textContent = message;
+                alertBox.className = 'alert';
+                
+                if (type === 'success') {
+                    alertBox.classList.add('alert-success');
+                } else if (type === 'error') {
+                    alertBox.classList.add('alert-error');
+                }
+                
+                alertBox.style.display = 'block';
+                
+                setTimeout(() => {
+                    alertBox.style.display = 'none';
+                }, 5000);
+            }
+
+            function isValidEmail(email) {
+                const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(email).toLowerCase());
+            }
+        }
+    </script>
+</body>
+</html>
