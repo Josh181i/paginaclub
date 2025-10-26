@@ -1303,6 +1303,7 @@
             margin: 10px 0;
             font-family: monospace;
             font-size: 12px;
+            display: none;
         }
 
         .image-preview {
@@ -1628,10 +1629,10 @@ CEDULA JURIDICA 3-002-045681</textarea>
         </div>
     </div>
 
-<header id="mainHeader">
+    <header id="mainHeader">
         <div class="header-container">
             <div class="logo">
-                <img src="lci_emblem_2color_web-1.526x0-is.png" alt="Club de Leones San Sebastián">
+                <img src="https://via.placeholder.com/60x60/1565c0/ffffff?text=CLS" alt="Club de Leones San Sebastián">
                 <h1>Club de Leones<br>San Sebastián</h1>
             </div>
             <button class="mobile-menu-btn" id="mobileMenuBtn">
@@ -1705,11 +1706,6 @@ CEDULA JURIDICA 3-002-045681</textarea>
             <div class="section-title">
                 <h2>Noticias y Eventos</h2>
             </div>
-            <!-- DEBUG INFO -->
-            <div class="debug-info" id="newsDebug" style="display: none;">
-                <strong></strong> 
-                <span id="newsCount">0</span> 
-            </div>
             <div class="news-grid" id="newsGrid">
             </div>
         </div>
@@ -1719,11 +1715,6 @@ CEDULA JURIDICA 3-002-045681</textarea>
         <div class="container">
             <div class="section-title">
                 <h2>Galería</h2>
-            </div>
-            <!-- DEBUG INFO -->
-            <div class="debug-info" id="galleryDebug" style="display: none;">
-                <strong></strong> 
-                <span id="galleryCount">0</span> 
             </div>
             <div class="gallery-preview-grid" id="galleryPreviewGrid">
             </div>
@@ -1875,11 +1866,11 @@ CEDULA JURIDICA 3-002-045681</textarea>
     </section>
 
     <footer>
-      <div class="footer-container">
+        <div class="footer-container">
             <div class="footer-content">
                 <div class="footer-about">
                     <div class="footer-logo">
-                        <img src="lci_emblem_2color_web-1.526x0-is.png" alt="Club de Leones San Sebastián">
+                        <img src="https://via.placeholder.com/50x50/1565c0/ffffff?text=CLS" alt="Club de Leones San Sebastián">
                         <h3>Club de Leones<br>San Sebastián</h3>
                     </div>
                     <p>Organización de servicio comprometida con el desarrollo de nuestra comunidad a través de acciones benéficas y proyectos sociales.</p>
@@ -1917,6 +1908,7 @@ CEDULA JURIDICA 3-002-045681</textarea>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
     <script>
         // ===== CONFIGURACIÓN CORREGIDA DE FIREBASE =====
@@ -1933,6 +1925,7 @@ CEDULA JURIDICA 3-002-045681</textarea>
         firebase.initializeApp(firebaseConfig);
         const storage = firebase.storage();
         const auth = firebase.auth();
+        const db = firebase.firestore();
 
         // ===== SISTEMA DE AUTENTICACIÓN FIREBASE =====
 
@@ -1955,8 +1948,8 @@ CEDULA JURIDICA 3-002-045681</textarea>
             }
         });
 
-        // ===== SISTEMA CORREGIDO DE PERSISTENCIA =====
-        
+        // ===== SISTEMA DE PERSISTENCIA CON FIRESTORE =====
+
         let newsData = [];
         let helpData = [];
         let ethicsData = [];
@@ -1965,53 +1958,113 @@ CEDULA JURIDICA 3-002-045681</textarea>
         let christmasVideoData = ["", ""];
         let siteContent = {};
 
-        function loadAllData() {
+        // Función para cargar TODOS los datos desde Firestore
+        async function loadAllDataFromFirestore() {
             try {
-                newsData = JSON.parse(localStorage.getItem('clubLeonesNews')) || getDefaultNews();
-                helpData = JSON.parse(localStorage.getItem('clubLeonesHelp')) || getDefaultHelp();
-                ethicsData = JSON.parse(localStorage.getItem('clubLeonesEthics')) || getDefaultEthics();
-                bankData = JSON.parse(localStorage.getItem('clubLeonesBank')) || getDefaultBank();
-                galleryData = JSON.parse(localStorage.getItem('clubLeonesGallery')) || getDefaultGallery();
+                console.log("📥 Cargando datos desde Firestore...");
                 
-                const savedVideos = JSON.parse(localStorage.getItem('clubLeonesChristmasVideos'));
-                if (savedVideos && Array.isArray(savedVideos)) {
-                    christmasVideoData = savedVideos;
+                const docRef = db.collection('clubLeones').doc('sitioWeb');
+                const doc = await docRef.get();
+                
+                if (doc.exists) {
+                    const data = doc.data();
+                    
+                    newsData = data.newsData || getDefaultNews();
+                    helpData = data.helpData || getDefaultHelp();
+                    ethicsData = data.ethicsData || getDefaultEthics();
+                    bankData = data.bankData || getDefaultBank();
+                    galleryData = data.galleryData || getDefaultGallery();
+                    christmasVideoData = data.christmasVideoData || ["", ""];
+                    siteContent = data.siteContent || getDefaultContent();
+                    
+                    console.log("✅ Datos cargados desde Firestore:", {
+                        noticias: newsData.length,
+                        galeria: galleryData.length,
+                        videos: christmasVideoData.filter(v => v).length
+                    });
+                } else {
+                    // Si no existe el documento, crear uno con datos por defecto
+                    console.log("📝 No existe documento, creando con datos por defecto...");
+                    await saveAllDataToFirestore();
                 }
-                
-                siteContent = JSON.parse(localStorage.getItem('clubLeonesContent')) || getDefaultContent();
-                
-                console.log("📂 Datos cargados:", {
-                    noticias: newsData.length,
-                    galeria: galleryData.length,
-                    videos: christmasVideoData.filter(v => v).length
-                });
             } catch (error) {
-                console.error("Error cargando datos:", error);
+                console.error("❌ Error cargando datos de Firestore:", error);
+                // En caso de error, cargar datos por defecto
                 loadDefaultData();
             }
         }
 
-        function saveAllData() {
+        // Función para guardar TODOS los datos en Firestore
+        async function saveAllDataToFirestore() {
             try {
-                localStorage.setItem('clubLeonesNews', JSON.stringify(newsData));
-                localStorage.setItem('clubLeonesHelp', JSON.stringify(helpData));
-                localStorage.setItem('clubLeonesEthics', JSON.stringify(ethicsData));
-                localStorage.setItem('clubLeonesBank', JSON.stringify(bankData));
-                localStorage.setItem('clubLeonesGallery', JSON.stringify(galleryData));
-                localStorage.setItem('clubLeonesChristmasVideos', JSON.stringify(christmasVideoData));
-                localStorage.setItem('clubLeonesContent', JSON.stringify(siteContent));
+                console.log("💾 Guardando datos en Firestore...");
                 
-                console.log("💾 Datos guardados:", {
+                const dataToSave = {
+                    newsData: newsData,
+                    helpData: helpData,
+                    ethicsData: ethicsData,
+                    bankData: bankData,
+                    galleryData: galleryData,
+                    christmasVideoData: christmasVideoData,
+                    siteContent: siteContent,
+                    lastUpdated: new Date()
+                };
+                
+                await db.collection('clubLeones').doc('sitioWeb').set(dataToSave);
+                
+                console.log("✅ Datos guardados en Firestore:", {
                     noticias: newsData.length,
                     galeria: galleryData.length,
                     videos: christmasVideoData.filter(v => v).length
                 });
             } catch (error) {
-                console.error("Error guardando datos:", error);
-                alert("Error al guardar los datos.");
+                console.error("❌ Error guardando datos en Firestore:", error);
+                alert("Error al guardar los datos en la nube.");
             }
         }
 
+        // Función para escuchar cambios en tiempo real
+        function setupRealtimeListener() {
+            db.collection('clubLeones').doc('sitioWeb')
+                .onSnapshot((doc) => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        console.log("🔄 Cambios detectados en tiempo real!");
+                        
+                        // Actualizar datos locales
+                        newsData = data.newsData || newsData;
+                        helpData = data.helpData || helpData;
+                        ethicsData = data.ethicsData || ethicsData;
+                        bankData = data.bankData || bankData;
+                        galleryData = data.galleryData || galleryData;
+                        christmasVideoData = data.christmasVideoData || christmasVideoData;
+                        siteContent = data.siteContent || siteContent;
+                        
+                        // Recargar la vista
+                        loadFromStorage();
+                        
+                        // Si el usuario está en el panel admin, actualizar controles
+                        if (document.getElementById('adminPanel').style.display === 'block') {
+                            loadAdminValues();
+                        }
+                    }
+                }, (error) => {
+                    console.error("Error en listener en tiempo real:", error);
+                });
+        }
+
+        // Función para cargar datos por defecto
+        function loadDefaultData() {
+            newsData = getDefaultNews();
+            helpData = getDefaultHelp();
+            ethicsData = getDefaultEthics();
+            bankData = getDefaultBank();
+            galleryData = getDefaultGallery();
+            christmasVideoData = ["", ""];
+            siteContent = getDefaultContent();
+        }
+
+        // Funciones de datos por defecto
         function getDefaultNews() {
             return [
                 {
@@ -2134,14 +2187,9 @@ CEDULA JURIDICA 3-002-045681</textarea>
             };
         }
 
-        function loadDefaultData() {
-            newsData = getDefaultNews();
-            helpData = getDefaultHelp();
-            ethicsData = getDefaultEthics();
-            bankData = getDefaultBank();
-            galleryData = getDefaultGallery();
-            christmasVideoData = ["", ""];
-            siteContent = getDefaultContent();
+        // Función para guardar datos (mantener compatibilidad)
+        function saveAllData() {
+            saveAllDataToFirestore();
         }
 
         // ===== SISTEMA MEJORADO PARA VIDEOS LOCALES =====
@@ -2179,8 +2227,8 @@ CEDULA JURIDICA 3-002-045681</textarea>
                                 christmasVideoData[index] = downloadURL;
                             }
                             
-                            // Guardar en localStorage inmediatamente
-                            saveAllData();
+                            // Guardar en Firestore inmediatamente
+                            saveAllDataToFirestore();
                             
                             // Actualizar la vista
                             if (type === 'video') {
@@ -2392,8 +2440,8 @@ CEDULA JURIDICA 3-002-045681</textarea>
                                 siteContent.christmasImage = downloadURL;
                             }
                             
-                            // Guardar en localStorage inmediatamente
-                            saveAllData();
+                            // Guardar en Firestore inmediatamente
+                            saveAllDataToFirestore();
                             
                             // Actualizar la vista
                             if (type === 'news') {
@@ -2460,16 +2508,10 @@ CEDULA JURIDICA 3-002-045681</textarea>
 
         function renderNews() {
             const newsGrid = document.getElementById('newsGrid');
-            const newsDebug = document.getElementById('newsDebug');
-            const newsCount = document.getElementById('newsCount');
             
             if (!newsGrid) return;
             
             console.log('🎬 Renderizando noticias:', newsData);
-            
-            // Mostrar debug info
-            newsDebug.style.display = 'block';
-            newsCount.textContent = newsData.length;
             
             newsGrid.innerHTML = '';
             
@@ -2512,16 +2554,10 @@ CEDULA JURIDICA 3-002-045681</textarea>
 
         function renderGalleryPreview() {
             const galleryPreviewGrid = document.getElementById('galleryPreviewGrid');
-            const galleryDebug = document.getElementById('galleryDebug');
-            const galleryCount = document.getElementById('galleryCount');
             
             if (!galleryPreviewGrid) return;
             
             console.log('🎬 Renderizando galería:', galleryData);
-            
-            // Mostrar debug info
-            galleryDebug.style.display = 'block';
-            galleryCount.textContent = galleryData.length;
             
             galleryPreviewGrid.innerHTML = '';
             
@@ -2554,8 +2590,8 @@ CEDULA JURIDICA 3-002-045681</textarea>
 
         // ===== FUNCIONES DE CARGA Y RENDERIZADO PRINCIPAL =====
 
-        function loadFromStorage() {
-            loadAllData();
+        async function loadFromStorage() {
+            await loadAllDataFromFirestore();
             
             if (siteContent.heroTitle) document.getElementById('heroTitle').textContent = siteContent.heroTitle;
             if (siteContent.heroText) document.getElementById('heroText').textContent = siteContent.heroText;
@@ -3067,7 +3103,7 @@ ${bank.cedula}`
                 processMainImages();
                 
                 // 7. Guardar TODO
-                saveAllData();
+                saveAllDataToFirestore();
                 
                 // 8. Recargar vista
                 loadFromStorage();
@@ -3135,13 +3171,17 @@ ${bank.cedula}`
 
         // ===== INICIALIZACIÓN =====
 
-        document.addEventListener('DOMContentLoaded', function() {
-            loadFromStorage();
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Configurar listener en tiempo real primero
+            setupRealtimeListener();
+            
+            // Luego cargar datos
+            await loadFromStorage();
             createParticles();
             checkScroll();
             headerScroll();
             setupEventListenersWithFirebase();
-            console.log("🚀 Sitio cargado - LISTO PARA USAR");
+            console.log("🚀 Sitio cargado - LISTO PARA USAR - Sincronización en tiempo real ACTIVADA");
             
             // Mostrar información de debug
             setTimeout(() => {
@@ -3216,7 +3256,7 @@ ${bank.cedula}`
             document.getElementById('adminReset').addEventListener('click', function() {
                 if (confirm('¿Estás seguro de que quieres restablecer todos los datos? Se perderán los cambios no guardados.')) {
                     loadDefaultData();
-                    saveAllData();
+                    saveAllDataToFirestore();
                     loadFromStorage();
                     loadAdminValues();
                     alert('Datos restablecidos a valores por defecto');
@@ -3373,6 +3413,4 @@ ${bank.cedula}`
         }
     </script>
 </body>
-
 </html>
-
