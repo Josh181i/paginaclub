@@ -1,7 +1,3 @@
-
-
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -503,15 +499,72 @@
         </div>
     </footer>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
     <script>
-        // Cargar datos de la galería desde localStorage
-        function loadGalleryData() {
-            const savedGallery = localStorage.getItem('clubLeonesGallery');
-            if (savedGallery) {
-                return JSON.parse(savedGallery);
+        // ===== CONFIGURACIÓN DE FIREBASE =====
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLDYKAghYW11VXBeNaOtzOnGQHZRiRfrY",
+            authDomain: "almacenapp-fff60.firebaseapp.com",
+            projectId: "almacenapp-fff60",
+            storageBucket: "almacenapp-fff60.firebasestorage.app",
+            messagingSenderId: "258359058253",
+            appId: "1:258359058253:web:b677bb0567cbb88c46a104"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // ===== SISTEMA DE GALERÍA CON FIRESTORE =====
+
+        let galleryData = [];
+
+        // Función para cargar datos de la galería desde Firestore
+        async function loadGalleryDataFromFirestore() {
+            try {
+                console.log("📥 Cargando galería desde Firestore...");
+                
+                const docRef = db.collection('clubLeones').doc('sitioWeb');
+                const doc = await docRef.get();
+                
+                if (doc.exists) {
+                    const data = doc.data();
+                    galleryData = data.galleryData || getDefaultGallery();
+                    console.log("✅ Galería cargada desde Firestore:", galleryData.length + " imágenes");
+                } else {
+                    console.log("📝 No existe documento, usando datos por defecto...");
+                    galleryData = getDefaultGallery();
+                }
+            } catch (error) {
+                console.error("❌ Error cargando galería de Firestore:", error);
+                galleryData = getDefaultGallery();
             }
-            
-            // Datos por defecto si no hay nada guardado
+        }
+
+        // Función para escuchar cambios en tiempo real
+        function setupGalleryRealtimeListener() {
+            db.collection('clubLeones').doc('sitioWeb')
+                .onSnapshot((doc) => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        console.log("🔄 Cambios detectados en galería!");
+                        
+                        // Actualizar datos locales
+                        galleryData = data.galleryData || galleryData;
+                        
+                        // Recargar la galería
+                        renderGallery();
+                    }
+                }, (error) => {
+                    console.error("Error en listener de galería:", error);
+                });
+        }
+
+        // Datos por defecto para la galería
+        function getDefaultGallery() {
             return [
                 {
                     title: "Evento de Recolección de Alimentos",
@@ -549,20 +602,30 @@
         // Renderizar la galería
         function renderGallery() {
             const galleryGrid = document.getElementById('galleryGrid');
-            const galleryData = loadGalleryData();
             
             galleryGrid.innerHTML = '';
+            
+            if (galleryData.length === 0) {
+                galleryGrid.innerHTML = '<div class="image-placeholder" style="grid-column: 1/-1; text-align: center; padding: 3rem;">No hay imágenes en la galería</div>';
+                return;
+            }
             
             galleryData.forEach((gallery, index) => {
                 const galleryCard = document.createElement('div');
                 galleryCard.className = 'gallery-card';
+                
+                // Verificar si la imagen existe
+                const imageSrc = gallery.image && gallery.image.trim() !== '' ? gallery.image : 'https://via.placeholder.com/300x250/1565c0/ffffff?text=Imagen+No+Disponible';
+                const imageAlt = gallery.title || 'Galería';
+                
                 galleryCard.innerHTML = `
                     <div class="gallery-image">
-                        <img src="${gallery.image}" alt="${gallery.title}">
+                        <img src="${imageSrc}" alt="${imageAlt}" 
+                             onerror="this.src='https://via.placeholder.com/300x250/ff0000/ffffff?text=Error+Cargando+Imagen'">
                     </div>
                     <div class="gallery-content">
-                        <h3 class="gallery-title">${gallery.title}</h3>
-                        <p class="gallery-description">${gallery.description}</p>
+                        <h3 class="gallery-title">${gallery.title || 'Sin título'}</h3>
+                        <p class="gallery-description">${gallery.description || 'Sin descripción'}</p>
                     </div>
                 `;
                 galleryGrid.appendChild(galleryCard);
@@ -605,10 +668,17 @@
         }
 
         // Inicializar la página
-        window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('DOMContentLoaded', async () => {
+            // Configurar listener en tiempo real
+            setupGalleryRealtimeListener();
+            
+            // Cargar datos y renderizar
+            await loadGalleryDataFromFirestore();
             renderGallery();
             checkScroll();
             headerScroll();
+            
+            console.log("🚀 Galería cargada - Sincronización en tiempo real ACTIVADA");
         });
 
         window.addEventListener('scroll', () => {
