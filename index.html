@@ -1584,6 +1584,7 @@ Ser mesurado en la crítica y liberal en el elogio, construir y no destruir.</te
                     <h3>Cómo Ayudar</h3>
                     <div class="admin-controls" id="helpControls">
                     </div>
+                    <button class="add-card-btn" onclick="addHelpCard()">Agregar Opción de Ayuda</button>
                 </div>
                 
                 <div class="admin-section">
@@ -2844,6 +2845,10 @@ ${bank.cedula}`
             
             helpControls.innerHTML = '';
             
+            if (helpData.length === 0) {
+                helpData = getDefaultHelp();
+            }
+            
             helpData.forEach((help, index) => {
                 const helpControl = document.createElement('div');
                 helpControl.className = 'admin-control';
@@ -2855,6 +2860,7 @@ ${bank.cedula}`
                     <textarea id="adminHelpText${index}" rows="3">${help.description || ''}</textarea>
                     <label for="adminHelpIcon${index}">Icono (clase FontAwesome)</label>
                     <input type="text" id="adminHelpIcon${index}" value="${help.icon || ''}">
+                    <button class="remove-card-btn" onclick="removeHelpCard(${index})" style="margin-top: 10px;">Eliminar Opción</button>
                 `;
                 helpControls.appendChild(helpControl);
             });
@@ -2920,6 +2926,16 @@ ${bank.cedula}`
             }
         }
 
+        function removeHelpCard(index) {
+            if (helpData.length > 1) {
+                helpData.splice(index, 1);
+                loadHelpControls();
+                renderHelp();
+            } else {
+                alert('Debe haber al menos una opción de ayuda.');
+            }
+        }
+
         function addNewsCard() {
             newsData.push({
                 title: "Nueva Noticia",
@@ -2939,6 +2955,56 @@ ${bank.cedula}`
             });
             loadGalleryControls();
             renderGalleryPreview();
+        }
+
+        function addHelpCard() {
+            helpData.push({
+                title: "Nueva Opción de Ayuda",
+                description: "Descripción de la nueva opción de ayuda.",
+                icon: "fas fa-star"
+            });
+            loadHelpControls();
+            renderHelp();
+        }
+
+        function parseBankInfo(bankText) {
+            const banks = bankText.split('\n\n');
+            const parsedBanks = [];
+            
+            banks.forEach(bankBlock => {
+                if (bankBlock.trim() === '') return;
+                
+                const lines = bankBlock.split('\n');
+                const bank = {
+                    bank: lines[0] || '',
+                    sinpe: '',
+                    colones: '',
+                    CuentaIBANColones: '',
+                    dolares: '',
+                    CuentaIBANDolares: '',
+                    cedula: ''
+                };
+                
+                lines.forEach(line => {
+                    if (line.includes('SINPE Móvil:')) {
+                        bank.sinpe = line.replace('SINPE Móvil:', '').trim();
+                    } else if (line.includes('Cuenta Colones:')) {
+                        bank.colones = line.replace('Cuenta Colones:', '').trim();
+                    } else if (line.includes('Cuenta IBAN Colones:')) {
+                        bank.CuentaIBANColones = line.replace('Cuenta IBAN Colones:', '').trim();
+                    } else if (line.includes('Cuenta Dólares:')) {
+                        bank.dolares = line.replace('Cuenta Dólares:', '').trim();
+                    } else if (line.includes('Cuenta IBAN Dólares:')) {
+                        bank.CuentaIBANDolares = line.replace('Cuenta IBAN Dólares:', '').trim();
+                    } else if (line.includes('CEDULA JURIDICA')) {
+                        bank.cedula = line.trim();
+                    }
+                });
+                
+                parsedBanks.push(bank);
+            });
+            
+            return parsedBanks.length > 0 ? parsedBanks : getDefaultBank();
         }
 
         function saveAdminChanges() {
@@ -2974,6 +3040,9 @@ ${bank.cedula}`
                 if (ethicsText) {
                     ethicsData = ethicsText.value.split('\n').filter(line => line.trim() !== '');
                 }
+
+                const bankInfoText = document.getElementById('adminBankInfo').value;
+                bankData = parseBankInfo(bankInfoText);
                 
                 processMainImages();
                 
