@@ -1587,12 +1587,13 @@ Ser mesurado en la crítica y liberal en el elogio, construir y no destruir.</te
                     <button class="add-card-btn" onclick="addHelpCard()">Agregar Opción de Ayuda</button>
                 </div>
                 
-                <div class="admin-section">
-                    <h3>Información Bancaria</h3>
-                    <div class="admin-controls">
-                        <div class="admin-control">
-                            <label for="adminBankInfo">Información Bancaria</label>
-                            <textarea id="adminBankInfo" rows="10">BAC CREDOMATIC
+
+         <div class="admin-section">
+    <h3>Información Bancaria</h3>
+    <div class="admin-controls">
+        <div class="admin-control">
+            <label for="adminBankInfo">Información Bancaria</label>
+            <textarea id="adminBankInfo" rows="10">BAC CREDOMATIC
 SINPE Móvil: 8322-6111
 Cuenta Colones: 800800807
 Cuenta IBAN Colones: CR17010200008008008070
@@ -1607,9 +1608,9 @@ Cuenta IBAN Colones: CR77015201001050947204
 Cuenta Dólares: 001-0276483-0
 Cuenta IBAN Dólares: CR06015201001027648306
 CEDULA JURIDICA 3-002-045681</textarea>
-                        </div>
-                    </div>
-                </div>
+        </div>
+    </div>
+</div>
                 
                 <div class="admin-section">
                     <h3>Galería</h3>
@@ -2508,14 +2509,13 @@ CEDULA JURIDICA 3-002-045681</textarea>
                 document.getElementById('christmasImage').src = siteContent.christmasImage;
             }
             
-            renderNews();
-            renderHelp();
-            renderEthics();
-            renderBankCards();
-            renderGalleryPreview();
-            renderChristmasVideos();
-        }
-
+           renderNews();
+    renderHelp();  // <- AÑADIR ESTA LÍNEA
+    renderEthics();
+    renderBankCards();  // <- AÑADIR ESTA LÍNEA
+    renderGalleryPreview();
+    renderChristmasVideos();
+}
         function renderHelp() {
             const helpOptions = document.getElementById('helpOptions');
             if (!helpOptions) return;
@@ -2747,15 +2747,15 @@ CEDULA JURIDICA 3-002-045681</textarea>
             document.getElementById('adminChristmasTitle').value = siteContent.christmasTitle || '';
             document.getElementById('adminChristmasText').value = siteContent.christmasText || '';
             
-            document.getElementById('adminBankInfo').value = bankData.map(bank => 
-                `${bank.bank}
+   document.getElementById('adminBankInfo').value = bankData.map(bank => 
+    `${bank.bank}
 SINPE Móvil: ${bank.sinpe}
 Cuenta Colones: ${bank.colones}
 Cuenta IBAN Colones: ${bank.CuentaIBANColones}
 Cuenta Dólares: ${bank.dolares}
 Cuenta IBAN Dólares: ${bank.CuentaIBANDolares}
-${bank.cedula}`
-            ).join('\n\n');
+Cédula Jurídica: ${bank.cedula}`
+).join('\n\n');
             
             updateVideoPreviews();
             
@@ -2840,14 +2840,15 @@ ${bank.cedula}`
         }
 
         function loadHelpControls() {
-            const helpControls = document.getElementById('helpControls');
-            if (!helpControls) return;
-            
-            helpControls.innerHTML = '';
-            
-            if (helpData.length === 0) {
-                helpData = getDefaultHelp();
-            }
+    const helpControls = document.getElementById('helpControls');
+    if (!helpControls) return;
+    
+    helpControls.innerHTML = '';
+    
+    // Asegurar que hay datos
+    if (!helpData || helpData.length === 0) {
+        helpData = getDefaultHelp();
+    }
             
             helpData.forEach((help, index) => {
                 const helpControl = document.createElement('div');
@@ -2967,46 +2968,56 @@ ${bank.cedula}`
             renderHelp();
         }
 
-        function parseBankInfo(bankText) {
-            const banks = bankText.split('\n\n');
-            const parsedBanks = [];
-            
-            banks.forEach(bankBlock => {
-                if (bankBlock.trim() === '') return;
-                
-                const lines = bankBlock.split('\n');
-                const bank = {
-                    bank: lines[0] || '',
-                    sinpe: '',
-                    colones: '',
-                    CuentaIBANColones: '',
-                    dolares: '',
-                    CuentaIBANDolares: '',
-                    cedula: ''
-                };
-                
-                lines.forEach(line => {
-                    if (line.includes('SINPE Móvil:')) {
-                        bank.sinpe = line.replace('SINPE Móvil:', '').trim();
-                    } else if (line.includes('Cuenta Colones:')) {
-                        bank.colones = line.replace('Cuenta Colones:', '').trim();
-                    } else if (line.includes('Cuenta IBAN Colones:')) {
-                        bank.CuentaIBANColones = line.replace('Cuenta IBAN Colones:', '').trim();
-                    } else if (line.includes('Cuenta Dólares:')) {
-                        bank.dolares = line.replace('Cuenta Dólares:', '').trim();
-                    } else if (line.includes('Cuenta IBAN Dólares:')) {
-                        bank.CuentaIBANDolares = line.replace('Cuenta IBAN Dólares:', '').trim();
-                    } else if (line.includes('CEDULA JURIDICA')) {
-                        bank.cedula = line.trim();
-                    }
-                });
-                
-                parsedBanks.push(bank);
-            });
-            
-            return parsedBanks.length > 0 ? parsedBanks : getDefaultBank();
+      function parseBankInfo(bankText) {
+    const banks = bankText.split('\n\n');
+    const parsedBanks = [];
+    
+    banks.forEach(bankBlock => {
+        if (bankBlock.trim() === '') return;
+        
+        const lines = bankBlock.split('\n');
+        const bank = {
+            bank: lines[0] || '',
+            sinpe: '',
+            colones: '',
+            CuentaIBANColones: '',
+            dolares: '',
+            CuentaIBANDolares: '',
+            cedula: ''
+        };
+        
+        lines.forEach(line => {
+            const trimmedLine = line.trim();
+            if (trimmedLine.includes('SINPE Móvil:')) {
+                bank.sinpe = trimmedLine.replace('SINPE Móvil:', '').trim();
+            } else if (trimmedLine.includes('Cuenta Colones:')) {
+                bank.colones = trimmedLine.replace('Cuenta Colones:', '').trim();
+            } else if (trimmedLine.includes('Cuenta IBAN Colones:')) {
+                bank.CuentaIBANColones = trimmedLine.replace('Cuenta IBAN Colones:', '').trim();
+            } else if (trimmedLine.includes('Cuenta Dólares:')) {
+                bank.dolares = trimmedLine.replace('Cuenta Dólares:', '').trim();
+            } else if (trimmedLine.includes('Cuenta IBAN Dólares:')) {
+                bank.CuentaIBANDolares = trimmedLine.replace('Cuenta IBAN Dólares:', '').trim();
+            } else if (trimmedLine.includes('CEDULA JURIDICA')) {
+                bank.cedula = trimmedLine.trim();
+            } else if (trimmedLine.includes('Cédula Jurídica:')) {
+                bank.cedula = trimmedLine.replace('Cédula Jurídica:', '').trim();
+            }
+        });
+        
+        // Si no se encontró SINPE en el formato con ":", buscar en formato simple
+        if (!bank.sinpe && lines[1]) {
+            const possibleSinpe = lines[1].trim();
+            if (/^\d{4}-\d{4}$/.test(possibleSinpe) || /^\d+$/.test(possibleSinpe)) {
+                bank.sinpe = possibleSinpe;
+            }
         }
-
+        
+        parsedBanks.push(bank);
+    });
+    
+    return parsedBanks.length > 0 ? parsedBanks : getDefaultBank();
+}
         function saveAdminChanges() {
             try {
                 siteContent.heroTitle = document.getElementById('adminHeroTitle').value;
@@ -3108,16 +3119,16 @@ ${bank.cedula}`
             }
         }
 
-        document.addEventListener('DOMContentLoaded', async function() {
-            setupRealtimeListener();
-            
-            await loadFromStorage();
-            createParticles();
-            checkScroll();
-            headerScroll();
-            setupEventListenersWithFirebase();
-        });
-
+       document.addEventListener('DOMContentLoaded', async function() {
+    setupRealtimeListener();
+    
+    await loadFromStorage();
+    createParticles();
+    checkScroll();
+    headerScroll();
+    setupEventListenersWithFirebase();
+    initializeSections();  
+});
         function setupEventListenersWithFirebase() {
             document.getElementById('mobileMenuBtn').addEventListener('click', function() {
                 document.getElementById('navMenu').classList.toggle('active');
@@ -3335,3 +3346,4 @@ ${bank.cedula}`
     </script>
 </body>
 </html>
+
