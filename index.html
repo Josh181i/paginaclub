@@ -609,7 +609,6 @@
             line-height: 1.6;
         }
 
-        /* Información Bancaria con Cards */
         .bank-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1040,7 +1039,6 @@
             background-color: #c62828;
         }
 
-        /* Estilos para la galería */
         .gallery-preview {
             background-color: #f9f9f9;
             text-align: center;
@@ -1078,7 +1076,6 @@
             transform: scale(1.1);
         }
 
-        /* NUEVOS ESTILOS PARA VIDEOS LOCALES */
         .video-container {
             width: 100%;
             margin: 2rem 0;
@@ -1450,7 +1447,6 @@
         <i class="fas fa-cog"></i>
     </div>
 
-    <!-- MODAL DE ADMINISTRACIÓN MEJORADO CON FIREBASE -->
     <div class="admin-modal" id="adminModal">
         <div class="admin-modal-content">
             <h2>Acceso Administrador</h2>
@@ -1736,7 +1732,6 @@ CEDULA JURIDICA 3-002-045681</textarea>
                     
                     <div class="video-container">
                         <div id="christmasVideo1">
-                            <!-- El video se cargará aquí dinámicamente -->
                         </div>
                     </div>
                     
@@ -1763,7 +1758,6 @@ CEDULA JURIDICA 3-002-045681</textarea>
                     <img id="christmasImage" src="https://images.unsplash.com/photo-1574359411659-619d037f3f54?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" alt="Sueño de Navidad">
                     <div class="video-container" style="margin-top: 2rem;">
                         <div id="christmasVideo2">
-                            <!-- El video se cargará aquí dinámicamente -->
                         </div>
                     </div>
                 </div>
@@ -1904,14 +1898,12 @@ CEDULA JURIDICA 3-002-045681</textarea>
         </div>
     </footer>
 
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
     <script>
-        // ===== CONFIGURACIÓN CORREGIDA DE FIREBASE =====
         const firebaseConfig = {
             apiKey: "AIzaSyBLDYKAghYW11VXBeNaOtzOnGQHZRiRfrY",
             authDomain: "almacenapp-fff60.firebaseapp.com",
@@ -1921,13 +1913,10 @@ CEDULA JURIDICA 3-002-045681</textarea>
             appId: "1:258359058253:web:b677bb0567cbb88c46a104"
         };
 
-        // Inicializar Firebase
         firebase.initializeApp(firebaseConfig);
         const storage = firebase.storage();
         const auth = firebase.auth();
         const db = firebase.firestore();
-
-        // ===== SISTEMA DE AUTENTICACIÓN FIREBASE =====
 
         function firebaseLogin(email, password) {
             return auth.signInWithEmailAndPassword(email, password);
@@ -1939,16 +1928,12 @@ CEDULA JURIDICA 3-002-045681</textarea>
 
         auth.onAuthStateChanged((user) => {
             if (user) {
-                console.log("Usuario autenticado:", user.email);
                 document.getElementById('adminPanel').style.display = 'block';
                 loadAdminValues();
             } else {
-                console.log("Usuario no autenticado");
                 document.getElementById('adminPanel').style.display = 'none';
             }
         });
-
-        // ===== SISTEMA DE PERSISTENCIA CON FIRESTORE =====
 
         let newsData = [];
         let helpData = [];
@@ -1958,11 +1943,8 @@ CEDULA JURIDICA 3-002-045681</textarea>
         let christmasVideoData = ["", ""];
         let siteContent = {};
 
-        // Función para cargar TODOS los datos desde Firestore
         async function loadAllDataFromFirestore() {
             try {
-                console.log("📥 Cargando datos desde Firestore...");
-                
                 const docRef = db.collection('clubLeones').doc('sitioWeb');
                 const doc = await docRef.get();
                 
@@ -1976,29 +1958,16 @@ CEDULA JURIDICA 3-002-045681</textarea>
                     galleryData = data.galleryData || getDefaultGallery();
                     christmasVideoData = data.christmasVideoData || ["", ""];
                     siteContent = data.siteContent || getDefaultContent();
-                    
-                    console.log("✅ Datos cargados desde Firestore:", {
-                        noticias: newsData.length,
-                        galeria: galleryData.length,
-                        videos: christmasVideoData.filter(v => v).length
-                    });
                 } else {
-                    // Si no existe el documento, crear uno con datos por defecto
-                    console.log("📝 No existe documento, creando con datos por defecto...");
                     await saveAllDataToFirestore();
                 }
             } catch (error) {
-                console.error("❌ Error cargando datos de Firestore:", error);
-                // En caso de error, cargar datos por defecto
                 loadDefaultData();
             }
         }
 
-        // Función para guardar TODOS los datos en Firestore
         async function saveAllDataToFirestore() {
             try {
-                console.log("💾 Guardando datos en Firestore...");
-                
                 const dataToSave = {
                     newsData: newsData,
                     helpData: helpData,
@@ -2011,27 +1980,17 @@ CEDULA JURIDICA 3-002-045681</textarea>
                 };
                 
                 await db.collection('clubLeones').doc('sitioWeb').set(dataToSave);
-                
-                console.log("✅ Datos guardados en Firestore:", {
-                    noticias: newsData.length,
-                    galeria: galleryData.length,
-                    videos: christmasVideoData.filter(v => v).length
-                });
             } catch (error) {
-                console.error("❌ Error guardando datos en Firestore:", error);
                 alert("Error al guardar los datos en la nube.");
             }
         }
 
-        // Función para escuchar cambios en tiempo real
         function setupRealtimeListener() {
             db.collection('clubLeones').doc('sitioWeb')
                 .onSnapshot((doc) => {
                     if (doc.exists) {
                         const data = doc.data();
-                        console.log("🔄 Cambios detectados en tiempo real!");
                         
-                        // Actualizar datos locales
                         newsData = data.newsData || newsData;
                         helpData = data.helpData || helpData;
                         ethicsData = data.ethicsData || ethicsData;
@@ -2040,10 +1999,8 @@ CEDULA JURIDICA 3-002-045681</textarea>
                         christmasVideoData = data.christmasVideoData || christmasVideoData;
                         siteContent = data.siteContent || siteContent;
                         
-                        // Recargar la vista
                         loadFromStorage();
                         
-                        // Si el usuario está en el panel admin, actualizar controles
                         if (document.getElementById('adminPanel').style.display === 'block') {
                             loadAdminValues();
                         }
@@ -2053,7 +2010,6 @@ CEDULA JURIDICA 3-002-045681</textarea>
                 });
         }
 
-        // Función para cargar datos por defecto
         function loadDefaultData() {
             newsData = getDefaultNews();
             helpData = getDefaultHelp();
@@ -2064,7 +2020,6 @@ CEDULA JURIDICA 3-002-045681</textarea>
             siteContent = getDefaultContent();
         }
 
-        // Funciones de datos por defecto
         function getDefaultNews() {
             return [
                 {
@@ -2187,14 +2142,10 @@ CEDULA JURIDICA 3-002-045681</textarea>
             };
         }
 
-        // Función para guardar datos (mantener compatibilidad)
         function saveAllData() {
             saveAllDataToFirestore();
         }
 
-        // ===== SISTEMA MEJORADO PARA VIDEOS LOCALES =====
-
-        // Función para subir video a Firebase
         function uploadVideoAndUpdate(file, folder, index, type) {
             return new Promise((resolve, reject) => {
                 const user = auth.currentUser;
@@ -2212,25 +2163,18 @@ CEDULA JURIDICA 3-002-045681</textarea>
                 uploadTask.on('state_changed',
                     (snapshot) => {
                         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        console.log(`Subiendo ${type} ${index}: ${progress}%`);
                     },
                     (error) => {
-                        console.error(`Error subiendo ${type} ${index}:`, error);
                         reject(error);
                     },
                     () => {
                         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                            console.log(`✅ ${type} ${index} subido:`, downloadURL);
-                            
-                            // ACTUALIZAR INMEDIATAMENTE los datos
                             if (type === 'video') {
                                 christmasVideoData[index] = downloadURL;
                             }
                             
-                            // Guardar en Firestore inmediatamente
                             saveAllDataToFirestore();
                             
-                            // Actualizar la vista
                             if (type === 'video') {
                                 renderChristmasVideos();
                             }
@@ -2242,38 +2186,32 @@ CEDULA JURIDICA 3-002-045681</textarea>
             });
         }
 
-        // Función para manejar subida de videos
         function handleVideoUpload(fileInput, index, type, folder = 'videos') {
             if (fileInput.files && fileInput.files[0]) {
                 const file = fileInput.files[0];
                 
-                // Validar que sea un archivo de video
                 if (!file.type.startsWith('video/')) {
                     alert('Por favor selecciona un archivo de video válido (MP4, WebM, etc.)');
                     return;
                 }
                 
-                if (file.size > 50 * 1024 * 1024) { // 50MB límite
+                if (file.size > 50 * 1024 * 1024) {
                     alert('El video es demasiado grande. Por favor usa un video menor a 50MB.');
                     return;
                 }
 
-                // Mostrar estado de carga
                 const statusDiv = document.createElement('div');
                 statusDiv.className = 'upload-status upload-loading';
                 statusDiv.textContent = 'Subiendo video...';
                 fileInput.parentNode.appendChild(statusDiv);
 
-                // Subir y actualizar inmediatamente
                 uploadVideoAndUpdate(file, folder, index, type)
                     .then((downloadURL) => {
                         statusDiv.className = 'upload-status upload-success';
                         statusDiv.textContent = '¡Video subido y guardado!';
                         
-                        // Actualizar previsualización
                         updateVideoPreview(index, downloadURL);
                         
-                        // Limpiar input
                         fileInput.value = '';
                         
                         setTimeout(() => {
@@ -2281,7 +2219,6 @@ CEDULA JURIDICA 3-002-045681</textarea>
                         }, 3000);
                     })
                     .catch((error) => {
-                        console.error('Error completo:', error);
                         statusDiv.className = 'upload-status upload-error';
                         statusDiv.textContent = 'Error: ' + error.message;
                         
@@ -2292,7 +2229,6 @@ CEDULA JURIDICA 3-002-045681</textarea>
             }
         }
 
-        // Función para actualizar previsualización de video
         function updateVideoPreview(index, videoUrl) {
             const previewElement = document.getElementById(`adminVideoPreview${index + 1}`);
             if (previewElement && videoUrl) {
@@ -2306,7 +2242,6 @@ CEDULA JURIDICA 3-002-045681</textarea>
             }
         }
 
-        // Función para renderizar videos locales
         function renderVideo(elementId, videoUrl) {
             const container = document.getElementById(elementId);
             if (!container) return;
@@ -2325,9 +2260,7 @@ CEDULA JURIDICA 3-002-045681</textarea>
             }
             
             let cleanUrl = videoUrl.trim();
-            console.log('🔄 Procesando video local:', cleanUrl);
             
-            // Mostrar indicador de carga
             container.innerHTML = `
                 <div class="video-loading">
                     <i class="fas fa-spinner"></i>
@@ -2335,7 +2268,6 @@ CEDULA JURIDICA 3-002-045681</textarea>
                 </div>
             `;
             
-            // Crear elemento de video
             setTimeout(() => {
                 const videoElement = document.createElement('video');
                 videoElement.src = cleanUrl;
@@ -2344,7 +2276,6 @@ CEDULA JURIDICA 3-002-045681</textarea>
                 videoElement.style.height = '400px';
                 videoElement.style.display = 'block';
                 
-                // Controles personalizados
                 const controlsDiv = document.createElement('div');
                 controlsDiv.className = 'video-controls';
                 controlsDiv.innerHTML = `
@@ -2362,16 +2293,11 @@ CEDULA JURIDICA 3-002-045681</textarea>
                     </button>
                 `;
                 
-                // Limpiar contenedor y agregar video
                 container.innerHTML = '';
                 container.appendChild(videoElement);
                 container.appendChild(controlsDiv);
                 
-                console.log('✅ Video local cargado:', cleanUrl);
-                
-                // Manejar errores del video
                 videoElement.onerror = function() {
-                    console.error('❌ Error al cargar el video');
                     container.innerHTML = `
                         <div class="video-error">
                             <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
@@ -2390,16 +2316,11 @@ CEDULA JURIDICA 3-002-045681</textarea>
             }, 1000);
         }
 
-        // Función para renderizar videos de Navidad
         function renderChristmasVideos() {
-            console.log('🎬 Renderizando videos de Navidad:', christmasVideoData);
             renderVideo('christmasVideo1', christmasVideoData[0] || '');
             renderVideo('christmasVideo2', christmasVideoData[1] || '');
         }
 
-        // ===== SISTEMA MEJORADO DE SUBIDA DE IMÁGENES =====
-
-        // Función para subir imagen y ACTUALIZAR INMEDIATAMENTE
         function uploadImageAndUpdate(file, folder, index, type) {
             return new Promise((resolve, reject) => {
                 const user = auth.currentUser;
@@ -2417,17 +2338,12 @@ CEDULA JURIDICA 3-002-045681</textarea>
                 uploadTask.on('state_changed',
                     (snapshot) => {
                         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        console.log(`Subiendo ${type} ${index}: ${progress}%`);
                     },
                     (error) => {
-                        console.error(`Error subiendo ${type} ${index}:`, error);
                         reject(error);
                     },
                     () => {
                         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                            console.log(`✅ ${type} ${index} subida:`, downloadURL);
-                            
-                            // ACTUALIZAR INMEDIATAMENTE los datos
                             if (type === 'news') {
                                 newsData[index].image = downloadURL;
                             } else if (type === 'gallery') {
@@ -2440,10 +2356,8 @@ CEDULA JURIDICA 3-002-045681</textarea>
                                 siteContent.christmasImage = downloadURL;
                             }
                             
-                            // Guardar en Firestore inmediatamente
                             saveAllDataToFirestore();
                             
-                            // Actualizar la vista
                             if (type === 'news') {
                                 renderNews();
                             } else if (type === 'gallery') {
@@ -2463,7 +2377,6 @@ CEDULA JURIDICA 3-002-045681</textarea>
             });
         }
 
-        // Función mejorada para manejar subida de imágenes
         function handleImageUpload(fileInput, index, type, folder = 'images') {
             if (fileInput.files && fileInput.files[0]) {
                 const file = fileInput.files[0];
@@ -2473,19 +2386,16 @@ CEDULA JURIDICA 3-002-045681</textarea>
                     return;
                 }
 
-                // Mostrar estado de carga
                 const statusDiv = document.createElement('div');
                 statusDiv.className = 'upload-status upload-loading';
                 statusDiv.textContent = 'Subiendo imagen...';
                 fileInput.parentNode.appendChild(statusDiv);
 
-                // Subir y actualizar inmediatamente
                 uploadImageAndUpdate(file, folder, index, type)
                     .then((downloadURL) => {
                         statusDiv.className = 'upload-status upload-success';
                         statusDiv.textContent = '¡Imagen subida y guardada!';
                         
-                        // Limpiar input
                         fileInput.value = '';
                         
                         setTimeout(() => {
@@ -2493,7 +2403,6 @@ CEDULA JURIDICA 3-002-045681</textarea>
                         }, 3000);
                     })
                     .catch((error) => {
-                        console.error('Error completo:', error);
                         statusDiv.className = 'upload-status upload-error';
                         statusDiv.textContent = 'Error: ' + error.message;
                         
@@ -2504,14 +2413,10 @@ CEDULA JURIDICA 3-002-045681</textarea>
             }
         }
 
-        // ===== FUNCIONES DE RENDERIZADO MEJORADAS =====
-
         function renderNews() {
             const newsGrid = document.getElementById('newsGrid');
             
             if (!newsGrid) return;
-            
-            console.log('🎬 Renderizando noticias:', newsData);
             
             newsGrid.innerHTML = '';
             
@@ -2524,7 +2429,6 @@ CEDULA JURIDICA 3-002-045681</textarea>
                 const newsCard = document.createElement('div');
                 newsCard.className = 'news-card';
                 
-                // Verificar si la imagen existe
                 const imageSrc = news.image && news.image.trim() !== '' ? news.image : 'https://via.placeholder.com/300x200/1565c0/ffffff?text=Imagen+No+Disponible';
                 const imageAlt = news.title || 'Noticia';
                 
@@ -2543,21 +2447,16 @@ CEDULA JURIDICA 3-002-045681</textarea>
                 `;
                 newsGrid.appendChild(newsCard);
                 
-                // Animación
                 setTimeout(() => {
                     newsCard.classList.add('visible');
                 }, index * 200);
             });
-            
-            console.log('✅ Noticias renderizadas correctamente');
         }
 
         function renderGalleryPreview() {
             const galleryPreviewGrid = document.getElementById('galleryPreviewGrid');
             
             if (!galleryPreviewGrid) return;
-            
-            console.log('🎬 Renderizando galería:', galleryData);
             
             galleryPreviewGrid.innerHTML = '';
             
@@ -2572,7 +2471,6 @@ CEDULA JURIDICA 3-002-045681</textarea>
                 const galleryItem = document.createElement('div');
                 galleryItem.className = 'gallery-preview-item';
                 
-                // Verificar si la imagen existe
                 const imageSrc = gallery.image && gallery.image.trim() !== '' ? gallery.image : 'https://via.placeholder.com/250x200/1565c0/ffffff?text=Imagen+No+Disponible';
                 const imageAlt = gallery.title || 'Galería';
                 
@@ -2584,11 +2482,7 @@ CEDULA JURIDICA 3-002-045681</textarea>
                 `;
                 galleryPreviewGrid.appendChild(galleryItem);
             });
-            
-            console.log('✅ Galería renderizada correctamente');
         }
-
-        // ===== FUNCIONES DE CARGA Y RENDERIZADO PRINCIPAL =====
 
         async function loadFromStorage() {
             await loadAllDataFromFirestore();
@@ -2620,8 +2514,6 @@ CEDULA JURIDICA 3-002-045681</textarea>
             renderGalleryPreview();
             renderChristmasVideos();
         }
-
-        // ===== FUNCIONES AUXILIARES =====
 
         function renderHelp() {
             const helpOptions = document.getElementById('helpOptions');
@@ -2839,8 +2731,6 @@ CEDULA JURIDICA 3-002-045681</textarea>
             }
         }
 
-        // ===== FUNCIONES DEL PANEL DE ADMINISTRACIÓN =====
-
         function loadAdminValues() {
             document.getElementById('adminHeroTitle').value = siteContent.heroTitle || '';
             document.getElementById('adminHeroText').value = siteContent.heroText || '';
@@ -2866,7 +2756,6 @@ Cuenta IBAN Dólares: ${bank.CuentaIBANDolares}
 ${bank.cedula}`
             ).join('\n\n');
             
-            // Actualizar previsualizaciones de video
             updateVideoPreviews();
             
             loadNewsControls();
@@ -2936,7 +2825,6 @@ ${bank.cedula}`
                 `;
                 newsControls.appendChild(newsControl);
                 
-                // Event listener para subida de imagen
                 const imageInput = document.getElementById(`adminNewsImage${index}`);
                 if (imageInput) {
                     imageInput.addEventListener('change', function() {
@@ -2944,7 +2832,6 @@ ${bank.cedula}`
                     });
                 }
                 
-                // Event listener para eliminar
                 newsControl.querySelector('.remove-card-btn').addEventListener('click', function() {
                     removeNewsCard(index);
                 });
@@ -3000,7 +2887,6 @@ ${bank.cedula}`
                 `;
                 galleryControls.appendChild(galleryControl);
                 
-                // Event listener para subida de imagen
                 const imageInput = document.getElementById(`adminGalleryImage${index}`);
                 if (imageInput) {
                     imageInput.addEventListener('change', function() {
@@ -3008,7 +2894,6 @@ ${bank.cedula}`
                     });
                 }
                 
-                // Event listener para eliminar
                 galleryControl.querySelector('.remove-card-btn').addEventListener('click', function() {
                     removeGalleryCard(index);
                 });
@@ -3056,13 +2941,8 @@ ${bank.cedula}`
             renderGalleryPreview();
         }
 
-        // ===== FUNCIÓN DE GUARDADO PRINCIPAL =====
-
         function saveAdminChanges() {
-            console.log('💾 INICIANDO GUARDADO COMPLETO...');
-            
             try {
-                // 1. Guardar contenido básico
                 siteContent.heroTitle = document.getElementById('adminHeroTitle').value;
                 siteContent.heroText = document.getElementById('adminHeroText').value;
                 siteContent.missionTitle = document.getElementById('adminMissionTitle').value;
@@ -3072,11 +2952,9 @@ ${bank.cedula}`
                 siteContent.ethicsTitle = document.getElementById('adminEthicsTitle').value;
                 siteContent.ethicsIntro = document.getElementById('adminEthicsIntro').value;
 
-                // 2. Objetivos
                 const objectivesText = document.getElementById('adminObjectives').value.split('\n');
                 siteContent.objectives = objectivesText.map(obj => `<p>${obj}</p>`).join('');
                 
-                // 3. Procesar videos
                 const video1Input = document.getElementById('adminChristmasVideo1');
                 const video2Input = document.getElementById('adminChristmasVideo2');
                 
@@ -3088,36 +2966,28 @@ ${bank.cedula}`
                     handleVideoUpload(video2Input, 1, 'video', 'videos');
                 }
                 
-                // 4. Actualizar noticias y galería (TEXTO SOLAMENTE)
                 updateNewsTextFromAdmin();
                 updateGalleryTextFromAdmin();
                 updateHelpFromAdmin();
                 
-                // 5. Ética
                 const ethicsText = document.getElementById('adminEthics');
                 if (ethicsText) {
                     ethicsData = ethicsText.value.split('\n').filter(line => line.trim() !== '');
                 }
                 
-                // 6. Procesar imágenes principales
                 processMainImages();
                 
-                // 7. Guardar TODO
                 saveAllDataToFirestore();
                 
-                // 8. Recargar vista
                 loadFromStorage();
                 
-                console.log('✅ GUARDADO COMPLETADO EXITOSAMENTE');
                 alert('¡Todos los cambios han sido guardados correctamente!');
                 
             } catch (error) {
-                console.error('❌ ERROR en guardado:', error);
                 alert('Error al guardar: ' + error.message);
             }
         }
 
-        // Funciones auxiliares para solo texto
         function updateNewsTextFromAdmin() {
             newsData.forEach((news, index) => {
                 const titleInput = document.getElementById(`adminNewsTitle${index}`);
@@ -3169,28 +3039,14 @@ ${bank.cedula}`
             }
         }
 
-        // ===== INICIALIZACIÓN =====
-
         document.addEventListener('DOMContentLoaded', async function() {
-            // Configurar listener en tiempo real primero
             setupRealtimeListener();
             
-            // Luego cargar datos
             await loadFromStorage();
             createParticles();
             checkScroll();
             headerScroll();
             setupEventListenersWithFirebase();
-            console.log("🚀 Sitio cargado - LISTO PARA USAR - Sincronización en tiempo real ACTIVADA");
-            
-            // Mostrar información de debug
-            setTimeout(() => {
-                console.log("📊 ESTADO INICIAL:", {
-                    noticias: newsData,
-                    galeria: galleryData,
-                    videos: christmasVideoData
-                });
-            }, 1000);
         });
 
         function setupEventListenersWithFirebase() {
@@ -3222,7 +3078,6 @@ ${bank.cedula}`
                         showAdminAlert('Inicio de sesión exitoso', 'success');
                     })
                     .catch((error) => {
-                        console.error('Error de autenticación:', error);
                         let errorMessage = 'Error al iniciar sesión';
                         
                         if (error.code === 'auth/user-not-found') {
@@ -3241,7 +3096,6 @@ ${bank.cedula}`
                 firebaseLogout()
                     .then(() => {
                         document.getElementById('adminPanel').style.display = 'none';
-                        console.log('Sesión cerrada correctamente');
                     })
                     .catch((error) => {
                         console.error('Error al cerrar sesión:', error);
@@ -3249,7 +3103,6 @@ ${bank.cedula}`
             });
 
             document.getElementById('adminSave').addEventListener('click', function() {
-                console.log('🟡 Botón Guardar - CLICK DETECTADO');
                 saveAdminChanges();
             });
 
@@ -3271,7 +3124,6 @@ ${bank.cedula}`
                 addGalleryCard();
             });
 
-            // Event listeners para previsualización de videos
             document.getElementById('adminChristmasVideo1').addEventListener('change', function() {
                 if (this.files && this.files[0]) {
                     const file = this.files[0];
@@ -3414,4 +3266,3 @@ ${bank.cedula}`
     </script>
 </body>
 </html>
-
